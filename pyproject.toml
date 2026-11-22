@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "token-trace"
+version = "0.1.0"
+description = "Inspect a token's layer activations and individual weight terms"
+requires-python = ">=3.10"
+dependencies = ["torch>=2.2"]
+
+[project.optional-dependencies]
+hf = ["transformers>=4.45,<6"]
+
+[project.scripts]
+token-trace = "token_trace.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["token_trace*"]
