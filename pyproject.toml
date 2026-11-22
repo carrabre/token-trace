@@ -14,6 +14,7 @@ hf = ["transformers>=4.45,<6"]
 
 [project.scripts]
 token-trace = "token_trace.cli:main"
+token-trace-deepseek = "token_trace.deepseek:main"
 
 [tool.setuptools.packages.find]
 include = ["token_trace*"]

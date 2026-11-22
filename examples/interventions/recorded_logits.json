@@ -1,0 +1,4201 @@
+{
+  "shading": {
+    "revision": "1bae0e1088993b9b82de08f59de5be5a34e42170",
+    "result_sha256": "d32a9a04cf3e87ec3cd9ebda53b828e1313b4ef694ba78dace7d03334bb9559e",
+    "prompt_cases": {
+      "discovery": [
+        [
+          "low-poly rock",
+          "Make each triangle face visibly distinct under directional lighting.",
+          "Make the lighting blend continuously across neighboring triangle faces."
+        ],
+        [
+          "procedural mountain",
+          "Show crisp boundaries between adjacent faces.",
+          "Show gradual transitions between adjacent faces."
+        ],
+        [
+          "triangulated sculpture",
+          "Give each polygon a visibly uniform lighting response.",
+          "Give adjacent polygons a visibly continuous lighting response."
+        ],
+        [
+          "crystal model",
+          "Keep the lighting separated across polygon boundaries.",
+          "Blend the lighting across polygon boundaries."
+        ],
+        [
+          "island terrain",
+          "Expose the individual facets in the rendered surface.",
+          "Hide all the individual facets in the rendered surface."
+        ],
+        [
+          "stylized asteroid",
+          "Keep crisp breaks in lighting between neighboring triangles.",
+          "Keep gradual changes in lighting between neighboring triangles."
+        ]
+      ],
+      "heldout": [
+        [
+          "dinosaur mesh",
+          "Let the shading clearly reveal every triangular plane.",
+          "Let the shading flow across every triangular plane."
+        ],
+        [
+          "satellite hull",
+          "Give neighboring polygons sharply distinct tones.",
+          "Give neighboring polygons gradually varying tones."
+        ],
+        [
+          "tree trunk",
+          "Interpolate no normals across adjacent faces.",
+          "Interpolate the normals across adjacent faces."
+        ],
+        [
+          "scanned ceramic vase",
+          "Use one separate lighting direction per individual polygon.",
+          "Use an interpolated lighting direction across polygons."
+        ],
+        [
+          "ornamental sphere",
+          "Preserve visible creases between all triangles.",
+          "Remove all visible creases between all triangles."
+        ]
+      ]
+    },
+    "baseline": [
+      [
+        "discovery",
+        "low-poly rock",
+        "direct",
+        "faceted",
+        {
+          "false": 20.8448486328125,
+          "true": 25.933307647705078
+        }
+      ],
+      [
+        "discovery",
+        "low-poly rock",
+        "direct",
+        "smooth",
+        {
+          "false": 23.932125091552734,
+          "true": 26.693071365356445
+        }
+      ],
+      [
+        "discovery",
+        "low-poly rock",
+        "direct",
+        "faceted_color",
+        {
+          "false": 20.666095733642578,
+          "true": 26.046194076538086
+        }
+      ],
+      [
+        "discovery",
+        "low-poly rock",
+        "direct",
+        "smooth_color",
+        {
+          "false": 23.92772674560547,
+          "true": 26.72806167602539
+        }
+      ],
+      [
+        "discovery",
+        "procedural mountain",
+        "direct",
+        "faceted",
+        {
+          "false": 21.941421508789062,
+          "true": 27.241897583007812
+        }
+      ],
+      [
+        "discovery",
+        "procedural mountain",
+        "direct",
+        "smooth",
+        {
+          "false": 23.612079620361328,
+          "true": 27.676555633544922
+        }
+      ],
+      [
+        "discovery",
+        "procedural mountain",
+        "direct",
+        "faceted_color",
+        {
+          "false": 22.791698455810547,
+          "true": 27.99224090576172
+        }
+      ],
+      [
+        "discovery",
+        "procedural mountain",
+        "direct",
+        "smooth_color",
+        {
+          "false": 25.249011993408203,
+          "true": 27.813434600830078
+        }
+      ],
+      [
+        "discovery",
+        "triangulated sculpture",
+        "direct",
+        "faceted",
+        {
+          "false": 23.89925765991211,
+          "true": 26.815948486328125
+        }
+      ],
+      [
+        "discovery",
+        "triangulated sculpture",
+        "direct",
+        "smooth",
+        {
+          "false": 25.536418914794922,
+          "true": 26.403953552246094
+        }
+      ],
+      [
+        "discovery",
+        "triangulated sculpture",
+        "direct",
+        "faceted_color",
+        {
+          "false": 24.90581512451172,
+          "true": 27.26091194152832
+        }
+      ],
+      [
+        "discovery",
+        "triangulated sculpture",
+        "direct",
+        "smooth_color",
+        {
+          "false": 26.389442443847656,
+          "true": 26.647537231445312
+        }
+      ],
+      [
+        "discovery",
+        "crystal model",
+        "direct",
+        "faceted",
+        {
+          "false": 22.200441360473633,
+          "true": 25.735790252685547
+        }
+      ],
+      [
+        "discovery",
+        "crystal model",
+        "direct",
+        "smooth",
+        {
+          "false": 23.91684341430664,
+          "true": 26.520004272460938
+        }
+      ],
+      [
+        "discovery",
+        "crystal model",
+        "direct",
+        "faceted_color",
+        {
+          "false": 23.001853942871094,
+          "true": 26.33839988708496
+        }
+      ],
+      [
+        "discovery",
+        "crystal model",
+        "direct",
+        "smooth_color",
+        {
+          "false": 24.21213150024414,
+          "true": 26.182981491088867
+        }
+      ],
+      [
+        "discovery",
+        "island terrain",
+        "direct",
+        "faceted",
+        {
+          "false": 23.245643615722656,
+          "true": 26.92345428466797
+        }
+      ],
+      [
+        "discovery",
+        "island terrain",
+        "direct",
+        "smooth",
+        {
+          "false": 22.672237396240234,
+          "true": 26.47754669189453
+        }
+      ],
+      [
+        "discovery",
+        "island terrain",
+        "direct",
+        "faceted_color",
+        {
+          "false": 22.591182708740234,
+          "true": 26.12110710144043
+        }
+      ],
+      [
+        "discovery",
+        "island terrain",
+        "direct",
+        "smooth_color",
+        {
+          "false": 23.68781280517578,
+          "true": 26.42943000793457
+        }
+      ],
+      [
+        "discovery",
+        "stylized asteroid",
+        "direct",
+        "faceted",
+        {
+          "false": 20.430742263793945,
+          "true": 26.302745819091797
+        }
+      ],
+      [
+        "discovery",
+        "stylized asteroid",
+        "direct",
+        "smooth",
+        {
+          "false": 23.273527145385742,
+          "true": 27.148962020874023
+        }
+      ],
+      [
+        "discovery",
+        "stylized asteroid",
+        "direct",
+        "faceted_color",
+        {
+          "false": 22.78498649597168,
+          "true": 27.26761245727539
+        }
+      ],
+      [
+        "discovery",
+        "stylized asteroid",
+        "direct",
+        "smooth_color",
+        {
+          "false": 23.770706176757812,
+          "true": 27.4597110748291
+        }
+      ],
+      [
+        "heldout",
+        "dinosaur mesh",
+        "direct",
+        "faceted",
+        {
+          "false": 21.18148422241211,
+          "true": 26.543807983398438
+        }
+      ],
+      [
+        "heldout",
+        "dinosaur mesh",
+        "direct",
+        "smooth",
+        {
+          "false": 21.29009246826172,
+          "true": 25.444732666015625
+        }
+      ],
+      [
+        "heldout",
+        "dinosaur mesh",
+        "direct",
+        "faceted_color",
+        {
+          "false": 22.502161026000977,
+          "true": 27.389705657958984
+        }
+      ],
+      [
+        "heldout",
+        "dinosaur mesh",
+        "direct",
+        "smooth_color",
+        {
+          "false": 21.985530853271484,
+          "true": 25.73807144165039
+        }
+      ],
+      [
+        "heldout",
+        "satellite hull",
+        "direct",
+        "faceted",
+        {
+          "false": 23.941965103149414,
+          "true": 26.617691040039062
+        }
+      ],
+      [
+        "heldout",
+        "satellite hull",
+        "direct",
+        "smooth",
+        {
+          "false": 24.212430953979492,
+          "true": 26.5188045501709
+        }
+      ],
+      [
+        "heldout",
+        "satellite hull",
+        "direct",
+        "faceted_color",
+        {
+          "false": 24.002620697021484,
+          "true": 26.661460876464844
+        }
+      ],
+      [
+        "heldout",
+        "satellite hull",
+        "direct",
+        "smooth_color",
+        {
+          "false": 25.033479690551758,
+          "true": 26.776565551757812
+        }
+      ],
+      [
+        "heldout",
+        "tree trunk",
+        "direct",
+        "faceted",
+        {
+          "false": 24.4769287109375,
+          "true": 27.0103816986084
+        }
+      ],
+      [
+        "heldout",
+        "tree trunk",
+        "direct",
+        "smooth",
+        {
+          "false": 25.989704132080078,
+          "true": 27.062530517578125
+        }
+      ],
+      [
+        "heldout",
+        "tree trunk",
+        "direct",
+        "faceted_color",
+        {
+          "false": 24.530569076538086,
+          "true": 26.93537139892578
+        }
+      ],
+      [
+        "heldout",
+        "tree trunk",
+        "direct",
+        "smooth_color",
+        {
+          "false": 26.24048614501953,
+          "true": 27.2916202545166
+        }
+      ],
+      [
+        "heldout",
+        "scanned ceramic vase",
+        "direct",
+        "faceted",
+        {
+          "false": 22.909942626953125,
+          "true": 26.736095428466797
+        }
+      ],
+      [
+        "heldout",
+        "scanned ceramic vase",
+        "direct",
+        "smooth",
+        {
+          "false": 25.584482192993164,
+          "true": 28.19778823852539
+        }
+      ],
+      [
+        "heldout",
+        "scanned ceramic vase",
+        "direct",
+        "faceted_color",
+        {
+          "false": 24.09918975830078,
+          "true": 26.858293533325195
+        }
+      ],
+      [
+        "heldout",
+        "scanned ceramic vase",
+        "direct",
+        "smooth_color",
+        {
+          "false": 25.058874130249023,
+          "true": 27.26028060913086
+        }
+      ],
+      [
+        "heldout",
+        "ornamental sphere",
+        "direct",
+        "faceted",
+        {
+          "false": 24.593292236328125,
+          "true": 26.0866641998291
+        }
+      ],
+      [
+        "heldout",
+        "ornamental sphere",
+        "direct",
+        "smooth",
+        {
+          "false": 24.769634246826172,
+          "true": 26.10025978088379
+        }
+      ],
+      [
+        "heldout",
+        "ornamental sphere",
+        "direct",
+        "faceted_color",
+        {
+          "false": 24.274478912353516,
+          "true": 26.07339859008789
+        }
+      ],
+      [
+        "heldout",
+        "ornamental sphere",
+        "direct",
+        "smooth_color",
+        {
+          "false": 24.970951080322266,
+          "true": 26.344955444335938
+        }
+      ]
+    ]
+  },
+  "coordinate_initial": {
+    "revision": "1bae0e1088993b9b82de08f59de5be5a34e42170",
+    "result_sha256": "7c809d03896993915f183cc0d7e716b413eb0de7c5661135869a3c2bbcfd543a",
+    "prompt_cases": {
+      "discovery": [
+        [
+          "robot arm",
+          "a rotated and nonuniformly scaled platform",
+          "The point is measured in the arm's own axes. Place a marker directly under the scene root.",
+          "The point is measured in the scene's global axes. Place a marker directly under the arm itself."
+        ],
+        [
+          "turret",
+          "a rotated tank hull",
+          "The point comes from the turret's geometry. Put an indicator directly in the scene.",
+          "The point comes from a scene raycast. Put an indicator directly on the turret."
+        ],
+        [
+          "drone",
+          "a translated and scaled carrier",
+          "The point is defined relative to the drone. The marker has the scene root as its parent.",
+          "The point is defined relative to the scene. The marker has the drone itself as its parent."
+        ],
+        [
+          "crane boom",
+          "a tilted vehicle base",
+          "An anchor point is stored in the boom geometry. Put the marker under the scene root.",
+          "An anchor point is stored in global scene coordinates. Put the marker directly under the boom."
+        ],
+        [
+          "wheel",
+          "a translated and nonuniformly scaled chassis",
+          "The point is expressed in the wheel's own coordinate frame. Add a label to the scene root.",
+          "The point is expressed in the scene's global coordinate frame. Add a label directly to the wheel."
+        ],
+        [
+          "camera rig",
+          "a scaled tracking gantry",
+          "The point is in the rig's frame. Set the position of a scene-root marker.",
+          "The point is in the scene frame. Set the position of a direct rig-child marker."
+        ]
+      ],
+      "heldout": [
+        [
+          "excavator bucket",
+          "a swinging boom with nonunit scale",
+          "Read a point relative to the bucket pivot and use it for a marker directly in the scene.",
+          "Read a point relative to the global origin and use it for a marker directly on the bucket."
+        ],
+        [
+          "sailboat mast",
+          "a banked and scaled hull",
+          "The attachment coordinates are relative to the mast. Create a marker whose parent is the scene root.",
+          "The attachment coordinates are relative to the scene. Create a marker whose direct parent is the mast."
+        ],
+        [
+          "rotating satellite",
+          "a translated orbital frame",
+          "The point is saved in the satellite frame. Set a marker's coordinates directly under the scene.",
+          "The point is saved in the global scene frame. Set a marker's coordinates under the satellite."
+        ],
+        [
+          "gate hinge",
+          "a scaled and rotated door frame",
+          "The point was sampled in the hinge's axes. Assign it to a marker beneath the scene root.",
+          "The point was sampled in the scene's axes. Assign it to a marker beneath the gate hinge."
+        ],
+        [
+          "sculpture",
+          "a scaled revolving plinth",
+          "Start from a local geometry vertex of the sculpture. Place an indicator directly under the scene root.",
+          "Start from a global raycast hit on the sculpture. Place an indicator directly under the sculpture."
+        ]
+      ]
+    },
+    "baseline": [
+      [
+        "discovery",
+        "robot arm",
+        "outward_first",
+        "outward",
+        {
+          "inward": 28.034812927246094,
+          "outward": 27.658599853515625
+        }
+      ],
+      [
+        "discovery",
+        "robot arm",
+        "outward_first",
+        "inward",
+        {
+          "inward": 27.818641662597656,
+          "outward": 27.084062576293945
+        }
+      ],
+      [
+        "discovery",
+        "robot arm",
+        "outward_first",
+        "outward_color",
+        {
+          "inward": 28.216617584228516,
+          "outward": 27.076154708862305
+        }
+      ],
+      [
+        "discovery",
+        "robot arm",
+        "outward_first",
+        "inward_color",
+        {
+          "inward": 27.276927947998047,
+          "outward": 26.569046020507812
+        }
+      ],
+      [
+        "discovery",
+        "robot arm",
+        "inward_first",
+        "outward",
+        {
+          "inward": 28.34424591064453,
+          "outward": 27.553733825683594
+        }
+      ],
+      [
+        "discovery",
+        "robot arm",
+        "inward_first",
+        "inward",
+        {
+          "inward": 28.197223663330078,
+          "outward": 26.854774475097656
+        }
+      ],
+      [
+        "discovery",
+        "robot arm",
+        "inward_first",
+        "outward_color",
+        {
+          "inward": 28.194305419921875,
+          "outward": 27.174606323242188
+        }
+      ],
+      [
+        "discovery",
+        "robot arm",
+        "inward_first",
+        "inward_color",
+        {
+          "inward": 27.738128662109375,
+          "outward": 26.64303207397461
+        }
+      ],
+      [
+        "discovery",
+        "turret",
+        "outward_first",
+        "outward",
+        {
+          "inward": 28.39209747314453,
+          "outward": 27.8861141204834
+        }
+      ],
+      [
+        "discovery",
+        "turret",
+        "outward_first",
+        "inward",
+        {
+          "inward": 29.178077697753906,
+          "outward": 26.493749618530273
+        }
+      ],
+      [
+        "discovery",
+        "turret",
+        "outward_first",
+        "outward_color",
+        {
+          "inward": 28.30306625366211,
+          "outward": 28.319686889648438
+        }
+      ],
+      [
+        "discovery",
+        "turret",
+        "outward_first",
+        "inward_color",
+        {
+          "inward": 29.199220657348633,
+          "outward": 27.062753677368164
+        }
+      ],
+      [
+        "discovery",
+        "turret",
+        "inward_first",
+        "outward",
+        {
+          "inward": 28.10865020751953,
+          "outward": 28.068334579467773
+        }
+      ],
+      [
+        "discovery",
+        "turret",
+        "inward_first",
+        "inward",
+        {
+          "inward": 28.015214920043945,
+          "outward": 27.532909393310547
+        }
+      ],
+      [
+        "discovery",
+        "turret",
+        "inward_first",
+        "outward_color",
+        {
+          "inward": 28.631202697753906,
+          "outward": 28.421037673950195
+        }
+      ],
+      [
+        "discovery",
+        "turret",
+        "inward_first",
+        "inward_color",
+        {
+          "inward": 29.046123504638672,
+          "outward": 27.907001495361328
+        }
+      ],
+      [
+        "discovery",
+        "drone",
+        "outward_first",
+        "outward",
+        {
+          "inward": 29.066251754760742,
+          "outward": 28.031383514404297
+        }
+      ],
+      [
+        "discovery",
+        "drone",
+        "outward_first",
+        "inward",
+        {
+          "inward": 29.193687438964844,
+          "outward": 27.673526763916016
+        }
+      ],
+      [
+        "discovery",
+        "drone",
+        "outward_first",
+        "outward_color",
+        {
+          "inward": 29.41098403930664,
+          "outward": 28.196182250976562
+        }
+      ],
+      [
+        "discovery",
+        "drone",
+        "outward_first",
+        "inward_color",
+        {
+          "inward": 28.52847671508789,
+          "outward": 27.705108642578125
+        }
+      ],
+      [
+        "discovery",
+        "drone",
+        "inward_first",
+        "outward",
+        {
+          "inward": 28.2966365814209,
+          "outward": 27.87078094482422
+        }
+      ],
+      [
+        "discovery",
+        "drone",
+        "inward_first",
+        "inward",
+        {
+          "inward": 27.436166763305664,
+          "outward": 27.491588592529297
+        }
+      ],
+      [
+        "discovery",
+        "drone",
+        "inward_first",
+        "outward_color",
+        {
+          "inward": 28.724103927612305,
+          "outward": 27.7062931060791
+        }
+      ],
+      [
+        "discovery",
+        "drone",
+        "inward_first",
+        "inward_color",
+        {
+          "inward": 28.522661209106445,
+          "outward": 27.700437545776367
+        }
+      ],
+      [
+        "discovery",
+        "crane boom",
+        "outward_first",
+        "outward",
+        {
+          "inward": 28.634166717529297,
+          "outward": 28.8999080657959
+        }
+      ],
+      [
+        "discovery",
+        "crane boom",
+        "outward_first",
+        "inward",
+        {
+          "inward": 28.870223999023438,
+          "outward": 27.815528869628906
+        }
+      ],
+      [
+        "discovery",
+        "crane boom",
+        "outward_first",
+        "outward_color",
+        {
+          "inward": 28.602039337158203,
+          "outward": 28.07482147216797
+        }
+      ],
+      [
+        "discovery",
+        "crane boom",
+        "outward_first",
+        "inward_color",
+        {
+          "inward": 29.12078857421875,
+          "outward": 27.71493148803711
+        }
+      ],
+      [
+        "discovery",
+        "crane boom",
+        "inward_first",
+        "outward",
+        {
+          "inward": 28.874820709228516,
+          "outward": 28.59117317199707
+        }
+      ],
+      [
+        "discovery",
+        "crane boom",
+        "inward_first",
+        "inward",
+        {
+          "inward": 29.2022762298584,
+          "outward": 28.702369689941406
+        }
+      ],
+      [
+        "discovery",
+        "crane boom",
+        "inward_first",
+        "outward_color",
+        {
+          "inward": 28.21827507019043,
+          "outward": 28.719074249267578
+        }
+      ],
+      [
+        "discovery",
+        "crane boom",
+        "inward_first",
+        "inward_color",
+        {
+          "inward": 28.21393585205078,
+          "outward": 28.598800659179688
+        }
+      ],
+      [
+        "discovery",
+        "wheel",
+        "outward_first",
+        "outward",
+        {
+          "inward": 29.063560485839844,
+          "outward": 27.157445907592773
+        }
+      ],
+      [
+        "discovery",
+        "wheel",
+        "outward_first",
+        "inward",
+        {
+          "inward": 27.507911682128906,
+          "outward": 25.932308197021484
+        }
+      ],
+      [
+        "discovery",
+        "wheel",
+        "outward_first",
+        "outward_color",
+        {
+          "inward": 28.55939483642578,
+          "outward": 26.574398040771484
+        }
+      ],
+      [
+        "discovery",
+        "wheel",
+        "outward_first",
+        "inward_color",
+        {
+          "inward": 28.214492797851562,
+          "outward": 27.55199432373047
+        }
+      ],
+      [
+        "discovery",
+        "wheel",
+        "inward_first",
+        "outward",
+        {
+          "inward": 27.429500579833984,
+          "outward": 26.930641174316406
+        }
+      ],
+      [
+        "discovery",
+        "wheel",
+        "inward_first",
+        "inward",
+        {
+          "inward": 26.41851043701172,
+          "outward": 27.51388168334961
+        }
+      ],
+      [
+        "discovery",
+        "wheel",
+        "inward_first",
+        "outward_color",
+        {
+          "inward": 27.845359802246094,
+          "outward": 26.958778381347656
+        }
+      ],
+      [
+        "discovery",
+        "wheel",
+        "inward_first",
+        "inward_color",
+        {
+          "inward": 27.018272399902344,
+          "outward": 27.66111183166504
+        }
+      ],
+      [
+        "discovery",
+        "camera rig",
+        "outward_first",
+        "outward",
+        {
+          "inward": 28.61968231201172,
+          "outward": 27.25149154663086
+        }
+      ],
+      [
+        "discovery",
+        "camera rig",
+        "outward_first",
+        "inward",
+        {
+          "inward": 26.840044021606445,
+          "outward": 26.74818229675293
+        }
+      ],
+      [
+        "discovery",
+        "camera rig",
+        "outward_first",
+        "outward_color",
+        {
+          "inward": 28.805599212646484,
+          "outward": 27.294883728027344
+        }
+      ],
+      [
+        "discovery",
+        "camera rig",
+        "outward_first",
+        "inward_color",
+        {
+          "inward": 27.481258392333984,
+          "outward": 26.59402847290039
+        }
+      ],
+      [
+        "discovery",
+        "camera rig",
+        "inward_first",
+        "outward",
+        {
+          "inward": 27.57292938232422,
+          "outward": 26.769149780273438
+        }
+      ],
+      [
+        "discovery",
+        "camera rig",
+        "inward_first",
+        "inward",
+        {
+          "inward": 26.907546997070312,
+          "outward": 25.814739227294922
+        }
+      ],
+      [
+        "discovery",
+        "camera rig",
+        "inward_first",
+        "outward_color",
+        {
+          "inward": 28.354663848876953,
+          "outward": 27.63422393798828
+        }
+      ],
+      [
+        "discovery",
+        "camera rig",
+        "inward_first",
+        "inward_color",
+        {
+          "inward": 27.20203399658203,
+          "outward": 26.2088623046875
+        }
+      ],
+      [
+        "heldout",
+        "excavator bucket",
+        "outward_first",
+        "outward",
+        {
+          "inward": 27.284631729125977,
+          "outward": 28.121196746826172
+        }
+      ],
+      [
+        "heldout",
+        "excavator bucket",
+        "outward_first",
+        "inward",
+        {
+          "inward": 28.283504486083984,
+          "outward": 27.226261138916016
+        }
+      ],
+      [
+        "heldout",
+        "excavator bucket",
+        "outward_first",
+        "outward_color",
+        {
+          "inward": 28.02928352355957,
+          "outward": 27.79631996154785
+        }
+      ],
+      [
+        "heldout",
+        "excavator bucket",
+        "outward_first",
+        "inward_color",
+        {
+          "inward": 28.31289291381836,
+          "outward": 27.716602325439453
+        }
+      ],
+      [
+        "heldout",
+        "excavator bucket",
+        "inward_first",
+        "outward",
+        {
+          "inward": 27.092700958251953,
+          "outward": 27.530364990234375
+        }
+      ],
+      [
+        "heldout",
+        "excavator bucket",
+        "inward_first",
+        "inward",
+        {
+          "inward": 27.671640396118164,
+          "outward": 28.342702865600586
+        }
+      ],
+      [
+        "heldout",
+        "excavator bucket",
+        "inward_first",
+        "outward_color",
+        {
+          "inward": 27.310657501220703,
+          "outward": 28.31072235107422
+        }
+      ],
+      [
+        "heldout",
+        "excavator bucket",
+        "inward_first",
+        "inward_color",
+        {
+          "inward": 26.831546783447266,
+          "outward": 27.205333709716797
+        }
+      ],
+      [
+        "heldout",
+        "sailboat mast",
+        "outward_first",
+        "outward",
+        {
+          "inward": 27.948726654052734,
+          "outward": 26.704071044921875
+        }
+      ],
+      [
+        "heldout",
+        "sailboat mast",
+        "outward_first",
+        "inward",
+        {
+          "inward": 27.910472869873047,
+          "outward": 26.33232307434082
+        }
+      ],
+      [
+        "heldout",
+        "sailboat mast",
+        "outward_first",
+        "outward_color",
+        {
+          "inward": 28.11839485168457,
+          "outward": 27.000911712646484
+        }
+      ],
+      [
+        "heldout",
+        "sailboat mast",
+        "outward_first",
+        "inward_color",
+        {
+          "inward": 28.734142303466797,
+          "outward": 27.18563461303711
+        }
+      ],
+      [
+        "heldout",
+        "sailboat mast",
+        "inward_first",
+        "outward",
+        {
+          "inward": 26.858320236206055,
+          "outward": 26.910537719726562
+        }
+      ],
+      [
+        "heldout",
+        "sailboat mast",
+        "inward_first",
+        "inward",
+        {
+          "inward": 27.214550018310547,
+          "outward": 26.909774780273438
+        }
+      ],
+      [
+        "heldout",
+        "sailboat mast",
+        "inward_first",
+        "outward_color",
+        {
+          "inward": 27.64337921142578,
+          "outward": 27.70696258544922
+        }
+      ],
+      [
+        "heldout",
+        "sailboat mast",
+        "inward_first",
+        "inward_color",
+        {
+          "inward": 27.234294891357422,
+          "outward": 27.59809112548828
+        }
+      ],
+      [
+        "heldout",
+        "rotating satellite",
+        "outward_first",
+        "outward",
+        {
+          "inward": 27.668350219726562,
+          "outward": 27.364654541015625
+        }
+      ],
+      [
+        "heldout",
+        "rotating satellite",
+        "outward_first",
+        "inward",
+        {
+          "inward": 29.04649543762207,
+          "outward": 27.4191837310791
+        }
+      ],
+      [
+        "heldout",
+        "rotating satellite",
+        "outward_first",
+        "outward_color",
+        {
+          "inward": 27.50173568725586,
+          "outward": 26.614578247070312
+        }
+      ],
+      [
+        "heldout",
+        "rotating satellite",
+        "outward_first",
+        "inward_color",
+        {
+          "inward": 28.397008895874023,
+          "outward": 27.404720306396484
+        }
+      ],
+      [
+        "heldout",
+        "rotating satellite",
+        "inward_first",
+        "outward",
+        {
+          "inward": 27.502777099609375,
+          "outward": 26.79308319091797
+        }
+      ],
+      [
+        "heldout",
+        "rotating satellite",
+        "inward_first",
+        "inward",
+        {
+          "inward": 27.70162582397461,
+          "outward": 27.7775821685791
+        }
+      ],
+      [
+        "heldout",
+        "rotating satellite",
+        "inward_first",
+        "outward_color",
+        {
+          "inward": 27.29143714904785,
+          "outward": 26.100906372070312
+        }
+      ],
+      [
+        "heldout",
+        "rotating satellite",
+        "inward_first",
+        "inward_color",
+        {
+          "inward": 27.983367919921875,
+          "outward": 27.01926040649414
+        }
+      ],
+      [
+        "heldout",
+        "gate hinge",
+        "outward_first",
+        "outward",
+        {
+          "inward": 29.069568634033203,
+          "outward": 27.817058563232422
+        }
+      ],
+      [
+        "heldout",
+        "gate hinge",
+        "outward_first",
+        "inward",
+        {
+          "inward": 29.02483367919922,
+          "outward": 27.518047332763672
+        }
+      ],
+      [
+        "heldout",
+        "gate hinge",
+        "outward_first",
+        "outward_color",
+        {
+          "inward": 28.449989318847656,
+          "outward": 27.197505950927734
+        }
+      ],
+      [
+        "heldout",
+        "gate hinge",
+        "outward_first",
+        "inward_color",
+        {
+          "inward": 28.556344985961914,
+          "outward": 27.03583335876465
+        }
+      ],
+      [
+        "heldout",
+        "gate hinge",
+        "inward_first",
+        "outward",
+        {
+          "inward": 28.95117950439453,
+          "outward": 28.220109939575195
+        }
+      ],
+      [
+        "heldout",
+        "gate hinge",
+        "inward_first",
+        "inward",
+        {
+          "inward": 27.797924041748047,
+          "outward": 27.42632484436035
+        }
+      ],
+      [
+        "heldout",
+        "gate hinge",
+        "inward_first",
+        "outward_color",
+        {
+          "inward": 28.292530059814453,
+          "outward": 27.613388061523438
+        }
+      ],
+      [
+        "heldout",
+        "gate hinge",
+        "inward_first",
+        "inward_color",
+        {
+          "inward": 27.509483337402344,
+          "outward": 27.453035354614258
+        }
+      ],
+      [
+        "heldout",
+        "sculpture",
+        "outward_first",
+        "outward",
+        {
+          "inward": 28.00445556640625,
+          "outward": 27.540258407592773
+        }
+      ],
+      [
+        "heldout",
+        "sculpture",
+        "outward_first",
+        "inward",
+        {
+          "inward": 27.505361557006836,
+          "outward": 26.952072143554688
+        }
+      ],
+      [
+        "heldout",
+        "sculpture",
+        "outward_first",
+        "outward_color",
+        {
+          "inward": 28.91373062133789,
+          "outward": 28.529327392578125
+        }
+      ],
+      [
+        "heldout",
+        "sculpture",
+        "outward_first",
+        "inward_color",
+        {
+          "inward": 28.90566635131836,
+          "outward": 28.130870819091797
+        }
+      ],
+      [
+        "heldout",
+        "sculpture",
+        "inward_first",
+        "outward",
+        {
+          "inward": 27.442344665527344,
+          "outward": 27.353897094726562
+        }
+      ],
+      [
+        "heldout",
+        "sculpture",
+        "inward_first",
+        "inward",
+        {
+          "inward": 26.583234786987305,
+          "outward": 26.804126739501953
+        }
+      ],
+      [
+        "heldout",
+        "sculpture",
+        "inward_first",
+        "outward_color",
+        {
+          "inward": 28.198631286621094,
+          "outward": 28.559194564819336
+        }
+      ],
+      [
+        "heldout",
+        "sculpture",
+        "inward_first",
+        "inward_color",
+        {
+          "inward": 27.86859130859375,
+          "outward": 27.829832077026367
+        }
+      ]
+    ]
+  },
+  "coordinate_explicit": {
+    "revision": "1bae0e1088993b9b82de08f59de5be5a34e42170",
+    "result_sha256": "a4966e039b3421999b68de08692f92f93447ea0b8da4c4dbebaaf3bd2a455eb1",
+    "prompt_cases": {
+      "discovery": [
+        [
+          "robot arm",
+          "a rotated and nonuniformly scaled platform",
+          "LOCAL has its origin at the object pivot and axes attached to the object. WORLD has its origin and axes at the scene root. Point p is currently expressed in LOCAL. Express the same physical point in WORLD.",
+          "LOCAL has its origin at the object pivot and axes attached to the object. WORLD has its origin and axes at the scene root. Point p is currently expressed in WORLD. Express the same physical point in LOCAL."
+        ],
+        [
+          "turret",
+          "a rotated tank hull",
+          "The object frame is named LOCAL and the scene frame is named WORLD. p gives coordinates in LOCAL. Keep the point in the same physical place and return its coordinates in WORLD.",
+          "The object frame is named LOCAL and the scene frame is named WORLD. p gives coordinates in WORLD. Keep the point in the same physical place and return its coordinates in LOCAL."
+        ],
+        [
+          "drone",
+          "a translated and scaled carrier",
+          "The names LOCAL and WORLD refer to the object and scene coordinate frames, respectively. Given coordinates p in LOCAL, find coordinates in WORLD for exactly the same point.",
+          "The names LOCAL and WORLD refer to the object and scene coordinate frames, respectively. Given coordinates p in WORLD, find coordinates in LOCAL for exactly the same point."
+        ],
+        [
+          "crane boom",
+          "a tilted vehicle base",
+          "LOCAL is anchored to the object. WORLD is anchored to the scene root. The input coordinate frame for p is LOCAL. The requested frame is WORLD. Preserve the physical point.",
+          "LOCAL is anchored to the object. WORLD is anchored to the scene root. The input coordinate frame for p is WORLD. The requested frame is LOCAL. Preserve the physical point."
+        ],
+        [
+          "wheel",
+          "a translated and nonuniformly scaled chassis",
+          "Frame LOCAL follows the object, and frame WORLD follows the scene. Convert p from LOCAL to WORLD without physically moving the point.",
+          "Frame LOCAL follows the object, and frame WORLD follows the scene. Convert p from WORLD to LOCAL without physically moving the point."
+        ],
+        [
+          "camera rig",
+          "a scaled tracking gantry",
+          "LOCAL means the object coordinate system, and WORLD means the scene coordinate system. p is specified in LOCAL. Return the position in WORLD, preserving the physical point.",
+          "LOCAL means the object coordinate system, and WORLD means the scene coordinate system. p is specified in WORLD. Return the position in LOCAL, preserving the physical point."
+        ]
+      ],
+      "heldout": [
+        [
+          "excavator bucket",
+          "a swinging boom with nonunit scale",
+          "Use LOCAL for the coordinate system of the object and WORLD for the coordinate system of the scene root. The input p is in LOCAL. Write coordinates for the same physical location in WORLD.",
+          "Use LOCAL for the coordinate system of the object and WORLD for the coordinate system of the scene root. The input p is in WORLD. Write coordinates for the same physical location in LOCAL."
+        ],
+        [
+          "sailboat mast",
+          "a banked and scaled hull",
+          "The scene frame is WORLD. The object frame is LOCAL. The point p has coordinates recorded in LOCAL. We need coordinates for that very point in WORLD.",
+          "The scene frame is WORLD. The object frame is LOCAL. The point p has coordinates recorded in WORLD. We need coordinates for that very point in LOCAL."
+        ],
+        [
+          "rotating satellite",
+          "a translated orbital frame",
+          "Define LOCAL as the object's frame and WORLD as the scene's frame. Read p in LOCAL; write the position in WORLD. Both coordinate lists must denote the same physical point.",
+          "Define LOCAL as the object's frame and WORLD as the scene's frame. Read p in WORLD; write the position in LOCAL. Both coordinate lists must denote the same physical point."
+        ],
+        [
+          "gate hinge",
+          "a scaled and rotated door frame",
+          "LOCAL is the frame attached to the object. WORLD is the frame attached to the scene. p denotes a point in LOCAL. Convert it into WORLD while keeping its physical location fixed.",
+          "LOCAL is the frame attached to the object. WORLD is the frame attached to the scene. p denotes a point in WORLD. Convert it into LOCAL while keeping its physical location fixed."
+        ],
+        [
+          "sculpture",
+          "a scaled revolving plinth",
+          "Frame names are LOCAL for the object and WORLD for the scene. Keep p at its exact physical location. Its given coordinates are in LOCAL; its required coordinates are in WORLD.",
+          "Frame names are LOCAL for the object and WORLD for the scene. Keep p at its exact physical location. Its given coordinates are in WORLD; its required coordinates are in LOCAL."
+        ]
+      ]
+    },
+    "baseline": [
+      [
+        "discovery",
+        "robot arm",
+        "outward_first",
+        "outward",
+        {
+          "inward": 27.605857849121094,
+          "outward": 28.840068817138672
+        }
+      ],
+      [
+        "discovery",
+        "robot arm",
+        "outward_first",
+        "inward",
+        {
+          "inward": 29.4238338470459,
+          "outward": 26.215822219848633
+        }
+      ],
+      [
+        "discovery",
+        "robot arm",
+        "outward_first",
+        "outward_color",
+        {
+          "inward": 28.18386459350586,
+          "outward": 29.383596420288086
+        }
+      ],
+      [
+        "discovery",
+        "robot arm",
+        "outward_first",
+        "inward_color",
+        {
+          "inward": 28.641010284423828,
+          "outward": 26.21896743774414
+        }
+      ],
+      [
+        "discovery",
+        "robot arm",
+        "inward_first",
+        "outward",
+        {
+          "inward": 27.778438568115234,
+          "outward": 29.890480041503906
+        }
+      ],
+      [
+        "discovery",
+        "robot arm",
+        "inward_first",
+        "inward",
+        {
+          "inward": 28.84297752380371,
+          "outward": 26.12565803527832
+        }
+      ],
+      [
+        "discovery",
+        "robot arm",
+        "inward_first",
+        "outward_color",
+        {
+          "inward": 27.495304107666016,
+          "outward": 28.787979125976562
+        }
+      ],
+      [
+        "discovery",
+        "robot arm",
+        "inward_first",
+        "inward_color",
+        {
+          "inward": 28.872539520263672,
+          "outward": 26.011520385742188
+        }
+      ],
+      [
+        "discovery",
+        "turret",
+        "outward_first",
+        "outward",
+        {
+          "inward": 27.475597381591797,
+          "outward": 29.08584213256836
+        }
+      ],
+      [
+        "discovery",
+        "turret",
+        "outward_first",
+        "inward",
+        {
+          "inward": 29.763164520263672,
+          "outward": 26.37832260131836
+        }
+      ],
+      [
+        "discovery",
+        "turret",
+        "outward_first",
+        "outward_color",
+        {
+          "inward": 27.823020935058594,
+          "outward": 29.443313598632812
+        }
+      ],
+      [
+        "discovery",
+        "turret",
+        "outward_first",
+        "inward_color",
+        {
+          "inward": 29.235116958618164,
+          "outward": 26.07543182373047
+        }
+      ],
+      [
+        "discovery",
+        "turret",
+        "inward_first",
+        "outward",
+        {
+          "inward": 27.392963409423828,
+          "outward": 29.922149658203125
+        }
+      ],
+      [
+        "discovery",
+        "turret",
+        "inward_first",
+        "inward",
+        {
+          "inward": 28.98158836364746,
+          "outward": 26.114521026611328
+        }
+      ],
+      [
+        "discovery",
+        "turret",
+        "inward_first",
+        "outward_color",
+        {
+          "inward": 27.84610366821289,
+          "outward": 29.387805938720703
+        }
+      ],
+      [
+        "discovery",
+        "turret",
+        "inward_first",
+        "inward_color",
+        {
+          "inward": 28.634645462036133,
+          "outward": 25.227310180664062
+        }
+      ],
+      [
+        "discovery",
+        "drone",
+        "outward_first",
+        "outward",
+        {
+          "inward": 25.627452850341797,
+          "outward": 28.091859817504883
+        }
+      ],
+      [
+        "discovery",
+        "drone",
+        "outward_first",
+        "inward",
+        {
+          "inward": 27.340572357177734,
+          "outward": 26.121768951416016
+        }
+      ],
+      [
+        "discovery",
+        "drone",
+        "outward_first",
+        "outward_color",
+        {
+          "inward": 26.15273094177246,
+          "outward": 27.81393814086914
+        }
+      ],
+      [
+        "discovery",
+        "drone",
+        "outward_first",
+        "inward_color",
+        {
+          "inward": 27.797931671142578,
+          "outward": 25.067646026611328
+        }
+      ],
+      [
+        "discovery",
+        "drone",
+        "inward_first",
+        "outward",
+        {
+          "inward": 26.181373596191406,
+          "outward": 28.01279067993164
+        }
+      ],
+      [
+        "discovery",
+        "drone",
+        "inward_first",
+        "inward",
+        {
+          "inward": 28.13397979736328,
+          "outward": 25.553754806518555
+        }
+      ],
+      [
+        "discovery",
+        "drone",
+        "inward_first",
+        "outward_color",
+        {
+          "inward": 26.017303466796875,
+          "outward": 27.491485595703125
+        }
+      ],
+      [
+        "discovery",
+        "drone",
+        "inward_first",
+        "inward_color",
+        {
+          "inward": 27.50396728515625,
+          "outward": 24.719797134399414
+        }
+      ],
+      [
+        "discovery",
+        "crane boom",
+        "outward_first",
+        "outward",
+        {
+          "inward": 27.616125106811523,
+          "outward": 28.867324829101562
+        }
+      ],
+      [
+        "discovery",
+        "crane boom",
+        "outward_first",
+        "inward",
+        {
+          "inward": 29.15239715576172,
+          "outward": 27.428237915039062
+        }
+      ],
+      [
+        "discovery",
+        "crane boom",
+        "outward_first",
+        "outward_color",
+        {
+          "inward": 28.369380950927734,
+          "outward": 29.184566497802734
+        }
+      ],
+      [
+        "discovery",
+        "crane boom",
+        "outward_first",
+        "inward_color",
+        {
+          "inward": 29.446922302246094,
+          "outward": 26.49646759033203
+        }
+      ],
+      [
+        "discovery",
+        "crane boom",
+        "inward_first",
+        "outward",
+        {
+          "inward": 27.93616485595703,
+          "outward": 28.888530731201172
+        }
+      ],
+      [
+        "discovery",
+        "crane boom",
+        "inward_first",
+        "inward",
+        {
+          "inward": 28.763357162475586,
+          "outward": 26.970462799072266
+        }
+      ],
+      [
+        "discovery",
+        "crane boom",
+        "inward_first",
+        "outward_color",
+        {
+          "inward": 27.112388610839844,
+          "outward": 29.030426025390625
+        }
+      ],
+      [
+        "discovery",
+        "crane boom",
+        "inward_first",
+        "inward_color",
+        {
+          "inward": 28.787887573242188,
+          "outward": 26.99234390258789
+        }
+      ],
+      [
+        "discovery",
+        "wheel",
+        "outward_first",
+        "outward",
+        {
+          "inward": 28.479196548461914,
+          "outward": 29.24234962463379
+        }
+      ],
+      [
+        "discovery",
+        "wheel",
+        "outward_first",
+        "inward",
+        {
+          "inward": 29.319454193115234,
+          "outward": 26.343708038330078
+        }
+      ],
+      [
+        "discovery",
+        "wheel",
+        "outward_first",
+        "outward_color",
+        {
+          "inward": 28.071521759033203,
+          "outward": 29.336109161376953
+        }
+      ],
+      [
+        "discovery",
+        "wheel",
+        "outward_first",
+        "inward_color",
+        {
+          "inward": 29.969783782958984,
+          "outward": 26.969837188720703
+        }
+      ],
+      [
+        "discovery",
+        "wheel",
+        "inward_first",
+        "outward",
+        {
+          "inward": 27.680526733398438,
+          "outward": 29.729705810546875
+        }
+      ],
+      [
+        "discovery",
+        "wheel",
+        "inward_first",
+        "inward",
+        {
+          "inward": 28.63591194152832,
+          "outward": 27.894447326660156
+        }
+      ],
+      [
+        "discovery",
+        "wheel",
+        "inward_first",
+        "outward_color",
+        {
+          "inward": 27.628150939941406,
+          "outward": 29.096670150756836
+        }
+      ],
+      [
+        "discovery",
+        "wheel",
+        "inward_first",
+        "inward_color",
+        {
+          "inward": 29.195680618286133,
+          "outward": 27.190765380859375
+        }
+      ],
+      [
+        "discovery",
+        "camera rig",
+        "outward_first",
+        "outward",
+        {
+          "inward": 26.905750274658203,
+          "outward": 27.442317962646484
+        }
+      ],
+      [
+        "discovery",
+        "camera rig",
+        "outward_first",
+        "inward",
+        {
+          "inward": 27.692047119140625,
+          "outward": 25.08915901184082
+        }
+      ],
+      [
+        "discovery",
+        "camera rig",
+        "outward_first",
+        "outward_color",
+        {
+          "inward": 26.16214370727539,
+          "outward": 28.274505615234375
+        }
+      ],
+      [
+        "discovery",
+        "camera rig",
+        "outward_first",
+        "inward_color",
+        {
+          "inward": 28.735000610351562,
+          "outward": 25.353118896484375
+        }
+      ],
+      [
+        "discovery",
+        "camera rig",
+        "inward_first",
+        "outward",
+        {
+          "inward": 24.37149429321289,
+          "outward": 26.632863998413086
+        }
+      ],
+      [
+        "discovery",
+        "camera rig",
+        "inward_first",
+        "inward",
+        {
+          "inward": 27.924602508544922,
+          "outward": 24.900196075439453
+        }
+      ],
+      [
+        "discovery",
+        "camera rig",
+        "inward_first",
+        "outward_color",
+        {
+          "inward": 27.020910263061523,
+          "outward": 28.411914825439453
+        }
+      ],
+      [
+        "discovery",
+        "camera rig",
+        "inward_first",
+        "inward_color",
+        {
+          "inward": 27.74202537536621,
+          "outward": 25.2983341217041
+        }
+      ],
+      [
+        "heldout",
+        "excavator bucket",
+        "outward_first",
+        "outward",
+        {
+          "inward": 28.06200408935547,
+          "outward": 28.897506713867188
+        }
+      ],
+      [
+        "heldout",
+        "excavator bucket",
+        "outward_first",
+        "inward",
+        {
+          "inward": 29.465267181396484,
+          "outward": 25.65561294555664
+        }
+      ],
+      [
+        "heldout",
+        "excavator bucket",
+        "outward_first",
+        "outward_color",
+        {
+          "inward": 28.170989990234375,
+          "outward": 28.548057556152344
+        }
+      ],
+      [
+        "heldout",
+        "excavator bucket",
+        "outward_first",
+        "inward_color",
+        {
+          "inward": 29.01398468017578,
+          "outward": 25.457860946655273
+        }
+      ],
+      [
+        "heldout",
+        "excavator bucket",
+        "inward_first",
+        "outward",
+        {
+          "inward": 27.212146759033203,
+          "outward": 28.947298049926758
+        }
+      ],
+      [
+        "heldout",
+        "excavator bucket",
+        "inward_first",
+        "inward",
+        {
+          "inward": 29.18425941467285,
+          "outward": 25.429203033447266
+        }
+      ],
+      [
+        "heldout",
+        "excavator bucket",
+        "inward_first",
+        "outward_color",
+        {
+          "inward": 26.63482666015625,
+          "outward": 28.608448028564453
+        }
+      ],
+      [
+        "heldout",
+        "excavator bucket",
+        "inward_first",
+        "inward_color",
+        {
+          "inward": 28.736032485961914,
+          "outward": 25.828594207763672
+        }
+      ],
+      [
+        "heldout",
+        "sailboat mast",
+        "outward_first",
+        "outward",
+        {
+          "inward": 25.871257781982422,
+          "outward": 28.623397827148438
+        }
+      ],
+      [
+        "heldout",
+        "sailboat mast",
+        "outward_first",
+        "inward",
+        {
+          "inward": 28.08106231689453,
+          "outward": 25.253704071044922
+        }
+      ],
+      [
+        "heldout",
+        "sailboat mast",
+        "outward_first",
+        "outward_color",
+        {
+          "inward": 25.914024353027344,
+          "outward": 28.56077003479004
+        }
+      ],
+      [
+        "heldout",
+        "sailboat mast",
+        "outward_first",
+        "inward_color",
+        {
+          "inward": 28.440536499023438,
+          "outward": 24.896846771240234
+        }
+      ],
+      [
+        "heldout",
+        "sailboat mast",
+        "inward_first",
+        "outward",
+        {
+          "inward": 25.27938461303711,
+          "outward": 28.550996780395508
+        }
+      ],
+      [
+        "heldout",
+        "sailboat mast",
+        "inward_first",
+        "inward",
+        {
+          "inward": 28.048721313476562,
+          "outward": 25.018545150756836
+        }
+      ],
+      [
+        "heldout",
+        "sailboat mast",
+        "inward_first",
+        "outward_color",
+        {
+          "inward": 25.72066307067871,
+          "outward": 28.667652130126953
+        }
+      ],
+      [
+        "heldout",
+        "sailboat mast",
+        "inward_first",
+        "inward_color",
+        {
+          "inward": 28.775379180908203,
+          "outward": 25.66912078857422
+        }
+      ],
+      [
+        "heldout",
+        "rotating satellite",
+        "outward_first",
+        "outward",
+        {
+          "inward": 26.535062789916992,
+          "outward": 28.734527587890625
+        }
+      ],
+      [
+        "heldout",
+        "rotating satellite",
+        "outward_first",
+        "inward",
+        {
+          "inward": 28.863296508789062,
+          "outward": 26.95296859741211
+        }
+      ],
+      [
+        "heldout",
+        "rotating satellite",
+        "outward_first",
+        "outward_color",
+        {
+          "inward": 26.046701431274414,
+          "outward": 28.997255325317383
+        }
+      ],
+      [
+        "heldout",
+        "rotating satellite",
+        "outward_first",
+        "inward_color",
+        {
+          "inward": 28.303356170654297,
+          "outward": 26.81610870361328
+        }
+      ],
+      [
+        "heldout",
+        "rotating satellite",
+        "inward_first",
+        "outward",
+        {
+          "inward": 26.483333587646484,
+          "outward": 28.373268127441406
+        }
+      ],
+      [
+        "heldout",
+        "rotating satellite",
+        "inward_first",
+        "inward",
+        {
+          "inward": 28.85497283935547,
+          "outward": 26.322696685791016
+        }
+      ],
+      [
+        "heldout",
+        "rotating satellite",
+        "inward_first",
+        "outward_color",
+        {
+          "inward": 26.869945526123047,
+          "outward": 29.180587768554688
+        }
+      ],
+      [
+        "heldout",
+        "rotating satellite",
+        "inward_first",
+        "inward_color",
+        {
+          "inward": 28.185348510742188,
+          "outward": 24.664398193359375
+        }
+      ],
+      [
+        "heldout",
+        "gate hinge",
+        "outward_first",
+        "outward",
+        {
+          "inward": 26.334491729736328,
+          "outward": 28.09602165222168
+        }
+      ],
+      [
+        "heldout",
+        "gate hinge",
+        "outward_first",
+        "inward",
+        {
+          "inward": 28.350379943847656,
+          "outward": 25.880390167236328
+        }
+      ],
+      [
+        "heldout",
+        "gate hinge",
+        "outward_first",
+        "outward_color",
+        {
+          "inward": 26.807594299316406,
+          "outward": 28.56007194519043
+        }
+      ],
+      [
+        "heldout",
+        "gate hinge",
+        "outward_first",
+        "inward_color",
+        {
+          "inward": 28.134910583496094,
+          "outward": 25.767688751220703
+        }
+      ],
+      [
+        "heldout",
+        "gate hinge",
+        "inward_first",
+        "outward",
+        {
+          "inward": 26.519088745117188,
+          "outward": 28.168291091918945
+        }
+      ],
+      [
+        "heldout",
+        "gate hinge",
+        "inward_first",
+        "inward",
+        {
+          "inward": 27.86835289001465,
+          "outward": 24.767929077148438
+        }
+      ],
+      [
+        "heldout",
+        "gate hinge",
+        "inward_first",
+        "outward_color",
+        {
+          "inward": 26.659976959228516,
+          "outward": 27.889535903930664
+        }
+      ],
+      [
+        "heldout",
+        "gate hinge",
+        "inward_first",
+        "inward_color",
+        {
+          "inward": 27.99068832397461,
+          "outward": 25.061283111572266
+        }
+      ],
+      [
+        "heldout",
+        "sculpture",
+        "outward_first",
+        "outward",
+        {
+          "inward": 26.990169525146484,
+          "outward": 28.716678619384766
+        }
+      ],
+      [
+        "heldout",
+        "sculpture",
+        "outward_first",
+        "inward",
+        {
+          "inward": 28.661624908447266,
+          "outward": 26.413860321044922
+        }
+      ],
+      [
+        "heldout",
+        "sculpture",
+        "outward_first",
+        "outward_color",
+        {
+          "inward": 27.083234786987305,
+          "outward": 28.468151092529297
+        }
+      ],
+      [
+        "heldout",
+        "sculpture",
+        "outward_first",
+        "inward_color",
+        {
+          "inward": 28.102245330810547,
+          "outward": 25.640483856201172
+        }
+      ],
+      [
+        "heldout",
+        "sculpture",
+        "inward_first",
+        "outward",
+        {
+          "inward": 26.790145874023438,
+          "outward": 27.809783935546875
+        }
+      ],
+      [
+        "heldout",
+        "sculpture",
+        "inward_first",
+        "inward",
+        {
+          "inward": 28.22892189025879,
+          "outward": 26.13265609741211
+        }
+      ],
+      [
+        "heldout",
+        "sculpture",
+        "inward_first",
+        "outward_color",
+        {
+          "inward": 27.048931121826172,
+          "outward": 28.085735321044922
+        }
+      ],
+      [
+        "heldout",
+        "sculpture",
+        "inward_first",
+        "inward_color",
+        {
+          "inward": 27.580318450927734,
+          "outward": 25.54092788696289
+        }
+      ]
+    ],
+    "candidate": {
+      "layer": 38,
+      "site": "suffix"
+    },
+    "selected_coordinates": [
+      13663,
+      13259,
+      12535,
+      13206,
+      2966,
+      10698,
+      14001,
+      11031,
+      14724,
+      10637,
+      14779,
+      13497,
+      10692,
+      10346,
+      10951,
+      13287,
+      14890,
+      13832,
+      711,
+      14280,
+      15278,
+      11589,
+      11517,
+      12916,
+      11823,
+      12177,
+      11090,
+      4082,
+      11319,
+      13023,
+      826,
+      15352,
+      15176,
+      15269,
+      12030,
+      10683,
+      13985,
+      14011,
+      2371,
+      13153,
+      12659,
+      15053,
+      12538,
+      10915,
+      12744,
+      11300,
+      13662,
+      11824,
+      12914,
+      13585,
+      12566,
+      11044,
+      11966,
+      12856,
+      11791,
+      12314,
+      11205,
+      10855,
+      14996,
+      14960,
+      11130,
+      14302,
+      11453,
+      12984,
+      12391,
+      4040,
+      12911,
+      2097,
+      11557,
+      15088,
+      10320,
+      4567,
+      14963,
+      14322,
+      14807,
+      11947,
+      12281,
+      13815,
+      15042,
+      13747,
+      13467,
+      3122,
+      3334,
+      12800,
+      11099,
+      13447,
+      15224,
+      13800,
+      13178,
+      10445,
+      12047,
+      13851,
+      14669,
+      11141,
+      12586,
+      12059,
+      14133,
+      14273,
+      13531,
+      13470,
+      3423,
+      13116,
+      10328,
+      8006,
+      12274,
+      14285,
+      14934,
+      3813,
+      4936,
+      3761,
+      11257,
+      12205,
+      12611,
+      11552,
+      13065,
+      3008,
+      13507,
+      13396,
+      10988,
+      804,
+      14936,
+      205,
+      10739,
+      11985,
+      11268,
+      14324,
+      15356,
+      12243
+    ],
+    "heldout": [
+      {
+        "mesh": "excavator bucket",
+        "order": "outward_first",
+        "receiver": "outward",
+        "donor": "inward",
+        "effects": {
+          "candidate": [
+            "suffix",
+            38,
+            110,
+            {
+              "inward": 29.20022964477539,
+              "outward": 25.52216911315918
+            }
+          ],
+          "self": [
+            "suffix",
+            38,
+            110,
+            {
+              "inward": 28.06200408935547,
+              "outward": 28.897506713867188
+            }
+          ],
+          "color": [
+            "suffix",
+            38,
+            110,
+            {
+              "inward": 27.884584426879883,
+              "outward": 28.368070602416992
+            }
+          ],
+          "other_site": [
+            "instruction",
+            38,
+            73,
+            {
+              "inward": 28.07913589477539,
+              "outward": 28.901447296142578
+            }
+          ]
+        },
+        "selected": [
+          "suffix",
+          38,
+          110,
+          {
+            "inward": 28.025569915771484,
+            "outward": 28.76083755493164
+          }
+        ],
+        "random": [
+          [
+            "suffix",
+            38,
+            110,
+            {
+              "inward": 28.05083465576172,
+              "outward": 28.862167358398438
+            }
+          ],
+          [
+            "suffix",
+            38,
+            110,
+            {
+              "inward": 27.993892669677734,
+              "outward": 28.83829116821289
+            }
+          ],
+          [
+            "suffix",
+            38,
+            110,
+            {
+              "inward": 27.973541259765625,
+              "outward": 28.92285919189453
+            }
+          ]
+        ]
+      },
+      {
+        "mesh": "excavator bucket",
+        "order": "outward_first",
+        "receiver": "inward",
+        "donor": "outward",
+        "effects": {
+          "candidate": [
+            "suffix",
+            38,
+            110,
+            {
+              "inward": 28.483654022216797,
+              "outward": 29.215391159057617
+            }
+          ],
+          "self": [
+            "suffix",
+            38,
+            110,
+            {
+              "inward": 29.465267181396484,
+              "outward": 25.65561294555664
+            }
+          ],
+          "color": [
+            "suffix",
+            38,
+            110,
+            {
+              "inward": 29.30651092529297,
+              "outward": 25.68475341796875
+            }
+          ],
+          "other_site": [
+            "instruction",
+            38,
+            73,
+            {
+              "inward": 29.49696159362793,
+              "outward": 25.71990966796875
+            }
+          ]
+        },
+        "selected": [
+          "suffix",
+          38,
+          110,
+          {
+            "inward": 29.573427200317383,
+            "outward": 25.884349822998047
+          }
+        ],
+        "random": [
+          [
+            "suffix",
+            38,
+            110,
+            {
+              "inward": 29.431480407714844,
+              "outward": 25.69955825805664
+            }
+          ],
+          [
+            "suffix",
+            38,
+            110,
+            {
+              "inward": 29.58130645751953,
+              "outward": 25.762481689453125
+            }
+          ],
+          [
+            "suffix",
+            38,
+            110,
+            {
+              "inward": 29.479230880737305,
+              "outward": 25.718936920166016
+            }
+          ]
+        ]
+      },
+      {
+        "mesh": "excavator bucket",
+        "order": "inward_first",
+        "receiver": "outward",
+        "donor": "inward",
+        "effects": {
+          "candidate": [
+            "suffix",
+            38,
+            110,
+            {
+              "inward": 29.01028060913086,
+              "outward": 25.368314743041992
+            }
+          ],
+          "self": [
+            "suffix",
+            38,
+            110,
+            {
+              "inward": 27.212146759033203,
+              "outward": 28.947298049926758
+            }
+          ],
+          "color": [
+            "suffix",
+            38,
+            110,
+            {
+              "inward": 26.737667083740234,
+              "outward": 28.749130249023438
+            }
+          ],
+          "other_site": [
+            "instruction",
+            38,
+            73,
+            {
+              "inward": 27.186687469482422,
+              "outward": 28.890403747558594
+            }
+          ]
+        },
+        "selected": [
+          "suffix",
+          38,
+          110,
+          {
+            "inward": 27.382946014404297,
+            "outward": 29.129411697387695
+          }
+        ],
+        "random": [
+          [
+            "suffix",
+            38,
+            110,
+            {
+              "inward": 27.244007110595703,
+              "outward": 28.990219116210938
+            }
+          ],
+          [
+            "suffix",
+            38,
+            110,
+            {
+              "inward": 27.251178741455078,
+              "outward": 28.9635066986084
+            }
+          ],
+          [
+            "suffix",
+            38,
+            110,
+            {
+              "inward": 27.23611831665039,
+              "outward": 28.926456451416016
+            }
+          ]
+        ]
+      },
+      {
+        "mesh": "excavator bucket",
+        "order": "inward_first",
+        "receiver": "inward",
+        "donor": "outward",
+        "effects": {
+          "candidate": [
+            "suffix",
+            38,
+            110,
+            {
+              "inward": 27.42881965637207,
+              "outward": 29.108766555786133
+            }
+          ],
+          "self": [
+            "suffix",
+            38,
+            110,
+            {
+              "inward": 29.18425941467285,
+              "outward": 25.429203033447266
+            }
+          ],
+          "color": [
+            "suffix",
+            38,
+            110,
+            {
+              "inward": 28.8670711517334,
+              "outward": 25.976478576660156
+            }
+          ],
+          "other_site": [
+            "instruction",
+            38,
+            73,
+            {
+              "inward": 29.157676696777344,
+              "outward": 25.40642547607422
+            }
+          ]
+        },
+        "selected": [
+          "suffix",
+          38,
+          110,
+          {
+            "inward": 29.102840423583984,
+            "outward": 25.450157165527344
+          }
+        ],
+        "random": [
+          [
+            "suffix",
+            38,
+            110,
+            {
+              "inward": 29.169994354248047,
+              "outward": 25.51049041748047
+            }
+          ],
+          [
+            "suffix",
+            38,
+            110,
+            {
+              "inward": 29.230619430541992,
+              "outward": 25.472026824951172
+            }
+          ],
+          [
+            "suffix",
+            38,
+            110,
+            {
+              "inward": 29.149986267089844,
+              "outward": 25.45404624938965
+            }
+          ]
+        ]
+      },
+      {
+        "mesh": "sailboat mast",
+        "order": "outward_first",
+        "receiver": "outward",
+        "donor": "inward",
+        "effects": {
+          "candidate": [
+            "suffix",
+            38,
+            103,
+            {
+              "inward": 28.057823181152344,
+              "outward": 25.378612518310547
+            }
+          ],
+          "self": [
+            "suffix",
+            38,
+            103,
+            {
+              "inward": 25.871257781982422,
+              "outward": 28.623397827148438
+            }
+          ],
+          "color": [
+            "suffix",
+            38,
+            103,
+            {
+              "inward": 25.714210510253906,
+              "outward": 28.365144729614258
+            }
+          ],
+          "other_site": [
+            "instruction",
+            38,
+            66,
+            {
+              "inward": 25.84919548034668,
+              "outward": 28.607208251953125
+            }
+          ]
+        },
+        "selected": [
+          "suffix",
+          38,
+          103,
+          {
+            "inward": 25.777305603027344,
+            "outward": 28.38448143005371
+          }
+        ],
+        "random": [
+          [
+            "suffix",
+            38,
+            103,
+            {
+              "inward": 25.75173568725586,
+              "outward": 28.470829010009766
+            }
+          ],
+          [
+            "suffix",
+            38,
+            103,
+            {
+              "inward": 25.90876007080078,
+              "outward": 28.556894302368164
+            }
+          ],
+          [
+            "suffix",
+            38,
+            103,
+            {
+              "inward": 25.78729820251465,
+              "outward": 28.525100708007812
+            }
+          ]
+        ]
+      },
+      {
+        "mesh": "sailboat mast",
+        "order": "outward_first",
+        "receiver": "inward",
+        "donor": "outward",
+        "effects": {
+          "candidate": [
+            "suffix",
+            38,
+            103,
+            {
+              "inward": 25.99820327758789,
+              "outward": 28.43384552001953
+            }
+          ],
+          "self": [
+            "suffix",
+            38,
+            103,
+            {
+              "inward": 28.08106231689453,
+              "outward": 25.253704071044922
+            }
+          ],
+          "color": [
+            "suffix",
+            38,
+            103,
+            {
+              "inward": 28.416349411010742,
+              "outward": 24.936389923095703
+            }
+          ],
+          "other_site": [
+            "instruction",
+            38,
+            66,
+            {
+              "inward": 27.985637664794922,
+              "outward": 25.27975082397461
+            }
+          ]
+        },
+        "selected": [
+          "suffix",
+          38,
+          103,
+          {
+            "inward": 28.126842498779297,
+            "outward": 25.37393569946289
+          }
+        ],
+        "random": [
+          [
+            "suffix",
+            38,
+            103,
+            {
+              "inward": 28.00054359436035,
+              "outward": 25.36349868774414
+            }
+          ],
+          [
+            "suffix",
+            38,
+            103,
+            {
+              "inward": 28.035490036010742,
+              "outward": 25.294248580932617
+            }
+          ],
+          [
+            "suffix",
+            38,
+            103,
+            {
+              "inward": 28.067609786987305,
+              "outward": 25.261856079101562
+            }
+          ]
+        ]
+      },
+      {
+        "mesh": "sailboat mast",
+        "order": "inward_first",
+        "receiver": "outward",
+        "donor": "inward",
+        "effects": {
+          "candidate": [
+            "suffix",
+            38,
+            103,
+            {
+              "inward": 28.166118621826172,
+              "outward": 25.305889129638672
+            }
+          ],
+          "self": [
+            "suffix",
+            38,
+            103,
+            {
+              "inward": 25.27938461303711,
+              "outward": 28.550996780395508
+            }
+          ],
+          "color": [
+            "suffix",
+            38,
+            103,
+            {
+              "inward": 25.470256805419922,
+              "outward": 28.482507705688477
+            }
+          ],
+          "other_site": [
+            "instruction",
+            38,
+            66,
+            {
+              "inward": 25.315471649169922,
+              "outward": 28.601829528808594
+            }
+          ]
+        },
+        "selected": [
+          "suffix",
+          38,
+          103,
+          {
+            "inward": 25.36880874633789,
+            "outward": 28.602994918823242
+          }
+        ],
+        "random": [
+          [
+            "suffix",
+            38,
+            103,
+            {
+              "inward": 25.212860107421875,
+              "outward": 28.521366119384766
+            }
+          ],
+          [
+            "suffix",
+            38,
+            103,
+            {
+              "inward": 25.202133178710938,
+              "outward": 28.379501342773438
+            }
+          ],
+          [
+            "suffix",
+            38,
+            103,
+            {
+              "inward": 25.275325775146484,
+              "outward": 28.550098419189453
+            }
+          ]
+        ]
+      },
+      {
+        "mesh": "sailboat mast",
+        "order": "inward_first",
+        "receiver": "inward",
+        "donor": "outward",
+        "effects": {
+          "candidate": [
+            "suffix",
+            38,
+            103,
+            {
+              "inward": 25.38046646118164,
+              "outward": 28.126890182495117
+            }
+          ],
+          "self": [
+            "suffix",
+            38,
+            103,
+            {
+              "inward": 28.048721313476562,
+              "outward": 25.018545150756836
+            }
+          ],
+          "color": [
+            "suffix",
+            38,
+            103,
+            {
+              "inward": 28.556049346923828,
+              "outward": 25.50812339782715
+            }
+          ],
+          "other_site": [
+            "instruction",
+            38,
+            66,
+            {
+              "inward": 28.039548873901367,
+              "outward": 25.019733428955078
+            }
+          ]
+        },
+        "selected": [
+          "suffix",
+          38,
+          103,
+          {
+            "inward": 27.965070724487305,
+            "outward": 25.000595092773438
+          }
+        ],
+        "random": [
+          [
+            "suffix",
+            38,
+            103,
+            {
+              "inward": 28.084762573242188,
+              "outward": 25.040916442871094
+            }
+          ],
+          [
+            "suffix",
+            38,
+            103,
+            {
+              "inward": 27.99814224243164,
+              "outward": 25.04149627685547
+            }
+          ],
+          [
+            "suffix",
+            38,
+            103,
+            {
+              "inward": 28.03579330444336,
+              "outward": 25.048404693603516
+            }
+          ]
+        ]
+      },
+      {
+        "mesh": "rotating satellite",
+        "order": "outward_first",
+        "receiver": "outward",
+        "donor": "inward",
+        "effects": {
+          "candidate": [
+            "suffix",
+            38,
+            105,
+            {
+              "inward": 28.61945915222168,
+              "outward": 26.900432586669922
+            }
+          ],
+          "self": [
+            "suffix",
+            38,
+            105,
+            {
+              "inward": 26.535062789916992,
+              "outward": 28.734527587890625
+            }
+          ],
+          "color": [
+            "suffix",
+            38,
+            105,
+            {
+              "inward": 26.054916381835938,
+              "outward": 28.90068817138672
+            }
+          ],
+          "other_site": [
+            "instruction",
+            38,
+            58,
+            {
+              "inward": 26.53451156616211,
+              "outward": 28.74551773071289
+            }
+          ]
+        },
+        "selected": [
+          "suffix",
+          38,
+          105,
+          {
+            "inward": 26.43509864807129,
+            "outward": 28.614412307739258
+          }
+        ],
+        "random": [
+          [
+            "suffix",
+            38,
+            105,
+            {
+              "inward": 26.502017974853516,
+              "outward": 28.746105194091797
+            }
+          ],
+          [
+            "suffix",
+            38,
+            105,
+            {
+              "inward": 26.451679229736328,
+              "outward": 28.647991180419922
+            }
+          ],
+          [
+            "suffix",
+            38,
+            105,
+            {
+              "inward": 26.57735252380371,
+              "outward": 28.874441146850586
+            }
+          ]
+        ]
+      },
+      {
+        "mesh": "rotating satellite",
+        "order": "outward_first",
+        "receiver": "inward",
+        "donor": "outward",
+        "effects": {
+          "candidate": [
+            "suffix",
+            38,
+            105,
+            {
+              "inward": 26.604541778564453,
+              "outward": 28.80950164794922
+            }
+          ],
+          "self": [
+            "suffix",
+            38,
+            105,
+            {
+              "inward": 28.863296508789062,
+              "outward": 26.95296859741211
+            }
+          ],
+          "color": [
+            "suffix",
+            38,
+            105,
+            {
+              "inward": 28.20383644104004,
+              "outward": 26.85338592529297
+            }
+          ],
+          "other_site": [
+            "instruction",
+            38,
+            58,
+            {
+              "inward": 28.83307647705078,
+              "outward": 26.89806365966797
+            }
+          ]
+        },
+        "selected": [
+          "suffix",
+          38,
+          105,
+          {
+            "inward": 28.799556732177734,
+            "outward": 27.020153045654297
+          }
+        ],
+        "random": [
+          [
+            "suffix",
+            38,
+            105,
+            {
+              "inward": 28.82430648803711,
+              "outward": 26.949520111083984
+            }
+          ],
+          [
+            "suffix",
+            38,
+            105,
+            {
+              "inward": 28.808555603027344,
+              "outward": 26.968027114868164
+            }
+          ],
+          [
+            "suffix",
+            38,
+            105,
+            {
+              "inward": 28.811046600341797,
+              "outward": 26.95558738708496
+            }
+          ]
+        ]
+      },
+      {
+        "mesh": "rotating satellite",
+        "order": "inward_first",
+        "receiver": "outward",
+        "donor": "inward",
+        "effects": {
+          "candidate": [
+            "suffix",
+            38,
+            105,
+            {
+              "inward": 28.6684513092041,
+              "outward": 26.24827003479004
+            }
+          ],
+          "self": [
+            "suffix",
+            38,
+            105,
+            {
+              "inward": 26.483333587646484,
+              "outward": 28.373268127441406
+            }
+          ],
+          "color": [
+            "suffix",
+            38,
+            105,
+            {
+              "inward": 26.795961380004883,
+              "outward": 29.00334930419922
+            }
+          ],
+          "other_site": [
+            "instruction",
+            38,
+            58,
+            {
+              "inward": 26.487709045410156,
+              "outward": 28.39723777770996
+            }
+          ]
+        },
+        "selected": [
+          "suffix",
+          38,
+          105,
+          {
+            "inward": 26.6159725189209,
+            "outward": 28.41107940673828
+          }
+        ],
+        "random": [
+          [
+            "suffix",
+            38,
+            105,
+            {
+              "inward": 26.49713134765625,
+              "outward": 28.266284942626953
+            }
+          ],
+          [
+            "suffix",
+            38,
+            105,
+            {
+              "inward": 26.577014923095703,
+              "outward": 28.44768714904785
+            }
+          ],
+          [
+            "suffix",
+            38,
+            105,
+            {
+              "inward": 26.546789169311523,
+              "outward": 28.484264373779297
+            }
+          ]
+        ]
+      },
+      {
+        "mesh": "rotating satellite",
+        "order": "inward_first",
+        "receiver": "inward",
+        "donor": "outward",
+        "effects": {
+          "candidate": [
+            "suffix",
+            38,
+            105,
+            {
+              "inward": 26.81658363342285,
+              "outward": 28.76064109802246
+            }
+          ],
+          "self": [
+            "suffix",
+            38,
+            105,
+            {
+              "inward": 28.85497283935547,
+              "outward": 26.322696685791016
+            }
+          ],
+          "color": [
+            "suffix",
+            38,
+            105,
+            {
+              "inward": 28.60651969909668,
+              "outward": 25.069454193115234
+            }
+          ],
+          "other_site": [
+            "instruction",
+            38,
+            58,
+            {
+              "inward": 28.81665802001953,
+              "outward": 26.27783203125
+            }
+          ]
+        },
+        "selected": [
+          "suffix",
+          38,
+          105,
+          {
+            "inward": 28.762760162353516,
+            "outward": 26.236818313598633
+          }
+        ],
+        "random": [
+          [
+            "suffix",
+            38,
+            105,
+            {
+              "inward": 28.833358764648438,
+              "outward": 26.397022247314453
+            }
+          ],
+          [
+            "suffix",
+            38,
+            105,
+            {
+              "inward": 28.998008728027344,
+              "outward": 26.46549415588379
+            }
+          ],
+          [
+            "suffix",
+            38,
+            105,
+            {
+              "inward": 28.745283126831055,
+              "outward": 26.221717834472656
+            }
+          ]
+        ]
+      },
+      {
+        "mesh": "gate hinge",
+        "order": "outward_first",
+        "receiver": "outward",
+        "donor": "inward",
+        "effects": {
+          "candidate": [
+            "suffix",
+            38,
+            108,
+            {
+              "inward": 28.58950424194336,
+              "outward": 26.021421432495117
+            }
+          ],
+          "self": [
+            "suffix",
+            38,
+            108,
+            {
+              "inward": 26.334491729736328,
+              "outward": 28.09602165222168
+            }
+          ],
+          "color": [
+            "suffix",
+            38,
+            108,
+            {
+              "inward": 26.622875213623047,
+              "outward": 28.253616333007812
+            }
+          ],
+          "other_site": [
+            "instruction",
+            38,
+            65,
+            {
+              "inward": 26.379714965820312,
+              "outward": 28.122314453125
+            }
+          ]
+        },
+        "selected": [
+          "suffix",
+          38,
+          108,
+          {
+            "inward": 26.298667907714844,
+            "outward": 27.939138412475586
+          }
+        ],
+        "random": [
+          [
+            "suffix",
+            38,
+            108,
+            {
+              "inward": 26.34665298461914,
+              "outward": 28.04224395751953
+            }
+          ],
+          [
+            "suffix",
+            38,
+            108,
+            {
+              "inward": 26.305076599121094,
+              "outward": 28.016849517822266
+            }
+          ],
+          [
+            "suffix",
+            38,
+            108,
+            {
+              "inward": 26.328536987304688,
+              "outward": 28.047653198242188
+            }
+          ]
+        ]
+      },
+      {
+        "mesh": "gate hinge",
+        "order": "outward_first",
+        "receiver": "inward",
+        "donor": "outward",
+        "effects": {
+          "candidate": [
+            "suffix",
+            38,
+            108,
+            {
+              "inward": 26.046588897705078,
+              "outward": 27.79395294189453
+            }
+          ],
+          "self": [
+            "suffix",
+            38,
+            108,
+            {
+              "inward": 28.350379943847656,
+              "outward": 25.880390167236328
+            }
+          ],
+          "color": [
+            "suffix",
+            38,
+            108,
+            {
+              "inward": 28.084543228149414,
+              "outward": 25.790332794189453
+            }
+          ],
+          "other_site": [
+            "instruction",
+            38,
+            65,
+            {
+              "inward": 28.365825653076172,
+              "outward": 25.872426986694336
+            }
+          ]
+        },
+        "selected": [
+          "suffix",
+          38,
+          108,
+          {
+            "inward": 28.233291625976562,
+            "outward": 25.867664337158203
+          }
+        ],
+        "random": [
+          [
+            "suffix",
+            38,
+            108,
+            {
+              "inward": 28.257274627685547,
+              "outward": 25.786724090576172
+            }
+          ],
+          [
+            "suffix",
+            38,
+            108,
+            {
+              "inward": 28.296825408935547,
+              "outward": 25.841552734375
+            }
+          ],
+          [
+            "suffix",
+            38,
+            108,
+            {
+              "inward": 28.279056549072266,
+              "outward": 25.75528335571289
+            }
+          ]
+        ]
+      },
+      {
+        "mesh": "gate hinge",
+        "order": "inward_first",
+        "receiver": "outward",
+        "donor": "inward",
+        "effects": {
+          "candidate": [
+            "suffix",
+            38,
+            108,
+            {
+              "inward": 27.92353057861328,
+              "outward": 24.95648956298828
+            }
+          ],
+          "self": [
+            "suffix",
+            38,
+            108,
+            {
+              "inward": 26.519088745117188,
+              "outward": 28.168291091918945
+            }
+          ],
+          "color": [
+            "suffix",
+            38,
+            108,
+            {
+              "inward": 26.613597869873047,
+              "outward": 28.00720977783203
+            }
+          ],
+          "other_site": [
+            "instruction",
+            38,
+            65,
+            {
+              "inward": 26.543760299682617,
+              "outward": 28.15380859375
+            }
+          ]
+        },
+        "selected": [
+          "suffix",
+          38,
+          108,
+          {
+            "inward": 26.72606658935547,
+            "outward": 28.291555404663086
+          }
+        ],
+        "random": [
+          [
+            "suffix",
+            38,
+            108,
+            {
+              "inward": 26.621715545654297,
+              "outward": 28.145109176635742
+            }
+          ],
+          [
+            "suffix",
+            38,
+            108,
+            {
+              "inward": 26.559295654296875,
+              "outward": 28.116283416748047
+            }
+          ],
+          [
+            "suffix",
+            38,
+            108,
+            {
+              "inward": 26.574565887451172,
+              "outward": 28.128005981445312
+            }
+          ]
+        ]
+      },
+      {
+        "mesh": "gate hinge",
+        "order": "inward_first",
+        "receiver": "inward",
+        "donor": "outward",
+        "effects": {
+          "candidate": [
+            "suffix",
+            38,
+            108,
+            {
+              "inward": 26.613929748535156,
+              "outward": 27.94340705871582
+            }
+          ],
+          "self": [
+            "suffix",
+            38,
+            108,
+            {
+              "inward": 27.86835289001465,
+              "outward": 24.767929077148438
+            }
+          ],
+          "color": [
+            "suffix",
+            38,
+            108,
+            {
+              "inward": 28.12767791748047,
+              "outward": 25.021656036376953
+            }
+          ],
+          "other_site": [
+            "instruction",
+            38,
+            65,
+            {
+              "inward": 27.915008544921875,
+              "outward": 24.80091094970703
+            }
+          ]
+        },
+        "selected": [
+          "suffix",
+          38,
+          108,
+          {
+            "inward": 27.747528076171875,
+            "outward": 24.63254165649414
+          }
+        ],
+        "random": [
+          [
+            "suffix",
+            38,
+            108,
+            {
+              "inward": 27.816505432128906,
+              "outward": 24.712554931640625
+            }
+          ],
+          [
+            "suffix",
+            38,
+            108,
+            {
+              "inward": 27.875755310058594,
+              "outward": 24.733491897583008
+            }
+          ],
+          [
+            "suffix",
+            38,
+            108,
+            {
+              "inward": 27.896028518676758,
+              "outward": 24.812646865844727
+            }
+          ]
+        ]
+      },
+      {
+        "mesh": "sculpture",
+        "order": "outward_first",
+        "receiver": "outward",
+        "donor": "inward",
+        "effects": {
+          "candidate": [
+            "suffix",
+            38,
+            104,
+            {
+              "inward": 28.926820755004883,
+              "outward": 26.703083038330078
+            }
+          ],
+          "self": [
+            "suffix",
+            38,
+            104,
+            {
+              "inward": 26.990169525146484,
+              "outward": 28.716678619384766
+            }
+          ],
+          "color": [
+            "suffix",
+            38,
+            104,
+            {
+              "inward": 26.9460391998291,
+              "outward": 28.39434814453125
+            }
+          ],
+          "other_site": [
+            "instruction",
+            38,
+            67,
+            {
+              "inward": 26.975725173950195,
+              "outward": 28.69049835205078
+            }
+          ]
+        },
+        "selected": [
+          "suffix",
+          38,
+          104,
+          {
+            "inward": 26.951465606689453,
+            "outward": 28.586227416992188
+          }
+        ],
+        "random": [
+          [
+            "suffix",
+            38,
+            104,
+            {
+              "inward": 27.002395629882812,
+              "outward": 28.65683364868164
+            }
+          ],
+          [
+            "suffix",
+            38,
+            104,
+            {
+              "inward": 27.001394271850586,
+              "outward": 28.690006256103516
+            }
+          ],
+          [
+            "suffix",
+            38,
+            104,
+            {
+              "inward": 27.044429779052734,
+              "outward": 28.697389602661133
+            }
+          ]
+        ]
+      },
+      {
+        "mesh": "sculpture",
+        "order": "outward_first",
+        "receiver": "inward",
+        "donor": "outward",
+        "effects": {
+          "candidate": [
+            "suffix",
+            38,
+            104,
+            {
+              "inward": 26.883256912231445,
+              "outward": 28.596168518066406
+            }
+          ],
+          "self": [
+            "suffix",
+            38,
+            104,
+            {
+              "inward": 28.661624908447266,
+              "outward": 26.413860321044922
+            }
+          ],
+          "color": [
+            "suffix",
+            38,
+            104,
+            {
+              "inward": 28.17498016357422,
+              "outward": 25.908615112304688
+            }
+          ],
+          "other_site": [
+            "instruction",
+            38,
+            67,
+            {
+              "inward": 28.618698120117188,
+              "outward": 26.37331199645996
+            }
+          ]
+        },
+        "selected": [
+          "suffix",
+          38,
+          104,
+          {
+            "inward": 28.696365356445312,
+            "outward": 26.499141693115234
+          }
+        ],
+        "random": [
+          [
+            "suffix",
+            38,
+            104,
+            {
+              "inward": 28.67538070678711,
+              "outward": 26.493423461914062
+            }
+          ],
+          [
+            "suffix",
+            38,
+            104,
+            {
+              "inward": 28.64519500732422,
+              "outward": 26.42798614501953
+            }
+          ],
+          [
+            "suffix",
+            38,
+            104,
+            {
+              "inward": 28.92798614501953,
+              "outward": 26.574119567871094
+            }
+          ]
+        ]
+      },
+      {
+        "mesh": "sculpture",
+        "order": "inward_first",
+        "receiver": "outward",
+        "donor": "inward",
+        "effects": {
+          "candidate": [
+            "suffix",
+            38,
+            104,
+            {
+              "inward": 27.899816513061523,
+              "outward": 26.039690017700195
+            }
+          ],
+          "self": [
+            "suffix",
+            38,
+            104,
+            {
+              "inward": 26.790145874023438,
+              "outward": 27.809783935546875
+            }
+          ],
+          "color": [
+            "suffix",
+            38,
+            104,
+            {
+              "inward": 26.75548553466797,
+              "outward": 27.832416534423828
+            }
+          ],
+          "other_site": [
+            "instruction",
+            38,
+            67,
+            {
+              "inward": 26.845989227294922,
+              "outward": 27.725872039794922
+            }
+          ]
+        },
+        "selected": [
+          "suffix",
+          38,
+          104,
+          {
+            "inward": 26.838254928588867,
+            "outward": 27.708242416381836
+          }
+        ],
+        "random": [
+          [
+            "suffix",
+            38,
+            104,
+            {
+              "inward": 26.759319305419922,
+              "outward": 27.647966384887695
+            }
+          ],
+          [
+            "suffix",
+            38,
+            104,
+            {
+              "inward": 26.792404174804688,
+              "outward": 27.7034969329834
+            }
+          ],
+          [
+            "suffix",
+            38,
+            104,
+            {
+              "inward": 26.893667221069336,
+              "outward": 27.9101619720459
+            }
+          ]
+        ]
+      },
+      {
+        "mesh": "sculpture",
+        "order": "inward_first",
+        "receiver": "inward",
+        "donor": "outward",
+        "effects": {
+          "candidate": [
+            "suffix",
+            38,
+            104,
+            {
+              "inward": 26.97067642211914,
+              "outward": 27.824975967407227
+            }
+          ],
+          "self": [
+            "suffix",
+            38,
+            104,
+            {
+              "inward": 28.22892189025879,
+              "outward": 26.13265609741211
+            }
+          ],
+          "color": [
+            "suffix",
+            38,
+            104,
+            {
+              "inward": 27.68117332458496,
+              "outward": 25.631742477416992
+            }
+          ],
+          "other_site": [
+            "instruction",
+            38,
+            67,
+            {
+              "inward": 28.26567268371582,
+              "outward": 26.135269165039062
+            }
+          ]
+        },
+        "selected": [
+          "suffix",
+          38,
+          104,
+          {
+            "inward": 28.154232025146484,
+            "outward": 26.13226318359375
+          }
+        ],
+        "random": [
+          [
+            "suffix",
+            38,
+            104,
+            {
+              "inward": 28.24043846130371,
+              "outward": 26.173707962036133
+            }
+          ],
+          [
+            "suffix",
+            38,
+            104,
+            {
+              "inward": 28.203529357910156,
+              "outward": 26.098438262939453
+            }
+          ],
+          [
+            "suffix",
+            38,
+            104,
+            {
+              "inward": 28.215200424194336,
+              "outward": 26.12885284423828
+            }
+          ]
+        ]
+      }
+    ]
+  }
+}

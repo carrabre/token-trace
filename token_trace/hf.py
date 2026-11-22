@@ -36,6 +36,26 @@ def linear_probe(name, module, rows, *, top=5, all_terms=False, transposed=False
     return Probe(name, module, read, "affine")
 
 
+def embedding_probe(name, module, rows):
+    for row in rows:
+        if row.input is not None or not 0 <= row.output < module.embedding_dim:
+            raise ValueError(f"{name}: select an embedding feature as MODULE:FEATURE")
+
+    def read(call):
+        ids = call.args[0] if call.args else call.kwargs.get("input")
+        measured = token_row(call.output, call.position, call.length)
+        if measured is None or getattr(ids, "shape", None) != (1, call.length):
+            return None
+        index = ids[0, call.position].item()
+        return {"lookup_index": index, "features": [
+            {"feature": row.output, "weight": module.weight[index, row.output].item(),
+             "observed": measured[row.output].item()}
+            for row in rows
+        ]}
+
+    return Probe(name, module, read, "embedding_lookup")
+
+
 def hf_plan(model, *, layer_path=None, rows: dict[str, Iterable[Row]] | None = None,
             top=5, all_terms=False):
     """Find the block stack and attach safe affine probes. Packed experts need an adapter."""
@@ -65,6 +85,10 @@ def hf_plan(model, *, layer_path=None, rows: dict[str, Iterable[Row]] | None = N
                                        gate_rows=rows.pop(name + ".gate", []),
                                        up_rows=rows.pop(name + ".up", []),
                                        top=top, all_terms=all_terms))
+            continue
+        if type(module) is nn.Embedding and not _PACKED.intersection(name.split(".")):
+            requests = rows.pop(name, [Row(0)])
+            probes.append(embedding_probe(name, module, requests))
             continue
         if type(module) not in (nn.Linear, Conv1D):
             if _PACKED.intersection(name.split(".")) or (

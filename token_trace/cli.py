@@ -18,7 +18,7 @@ def main():
     parser.add_argument("--device", default="cpu")
     parser.add_argument("--top", type=int, default=5, help="number of contribution terms per row")
     parser.add_argument("--row", action="append", default=[], metavar="MODULE:OUTPUT[:INPUT]",
-                        help="repeat to select an output row or a specific coefficient")
+                        help="repeat to select an affine row, weight term, or embedding feature")
     parser.add_argument("--all-terms", action="store_true", help="emit every coefficient in each selected row")
     parser.add_argument("--full-vectors", action="store_true", help="include selected token's layer vectors")
     parser.add_argument("--local-files-only", action="store_true")
@@ -45,11 +45,11 @@ def main():
                "trust_remote_code": False}
     tokenizer = AutoTokenizer.from_pretrained(args.model, **options)
     model = AutoModelForCausalLM.from_pretrained(args.model, **options).to(args.device).eval()
-    plan, skipped = hf_plan(model, layer_path=args.layers, rows=rows,
-                            top=args.top, all_terms=args.all_terms)
     inputs = tokenizer(args.text, return_tensors="pt").to(args.device)
     ids = inputs.pop("input_ids")
     try:
+        plan, skipped = hf_plan(model, layer_path=args.layers, rows=rows,
+                                top=args.top, all_terms=args.all_terms)
         data = trace(model, plan, ids, args.position, full_vectors=args.full_vectors,
                      forward_kwargs={**inputs, "use_cache": False})
     except ValueError as error:

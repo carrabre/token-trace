@@ -35,6 +35,17 @@ class TraceTests(unittest.TestCase):
         self.assertEqual(report["prediction"][0]["token_id"], int(logits.argmax()))
         self.assertFalse(model.get_submodule(module)._forward_hooks)
 
+    def test_embedding_lookup_records_coefficient_for_selected_token(self):
+        model = GPT2LMHeadModel(GPT2Config(vocab_size=32, n_embd=16, n_head=4, n_layer=2,
+                                          bos_token_id=0, eos_token_id=1)).eval()
+        plan, _ = hf_plan(model, rows={"transformer.wte": [Row(3)]})
+        report = trace(model, plan, self.ids, 2, forward_kwargs={"use_cache": False})
+        token = next(probe["data"] for probe in report["probes"]
+                     if probe["name"] == "transformer.wte")
+        value = model.transformer.wte.weight[7, 3].item()
+        self.assertEqual(token["lookup_index"], 7)
+        self.assertEqual(token["features"], [{"feature": 3, "weight": value, "observed": value}])
+
     def test_gpt2_transposed_weights(self):
         model = GPT2LMHeadModel(GPT2Config(vocab_size=32, n_embd=16, n_head=4, n_layer=2, bos_token_id=0, eos_token_id=1))
         self.check_dense(model, "transformer.h.0.mlp.c_fc", 16)
