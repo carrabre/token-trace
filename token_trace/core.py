@@ -145,28 +145,38 @@ def linear_terms(
 
 
 def trace(
+    model: nn.Module, plan: Plan, input_ids: Tensor, position: int, **options: Any,
+) -> dict:
+    """Run one forward pass and report one selected token."""
+    return trace_many(model, plan, input_ids, [position], **options)["traces"][0]
+
+
+def trace_many(
     model: nn.Module,
     plan: Plan,
     input_ids: Tensor,
-    position: int,
+    positions: Sequence[int] | None = None,
     *,
     full_vectors: bool = False,
     forward_kwargs: Mapping[str, Any] | None = None,
     runner: Callable[[nn.Module, Tensor, Mapping[str, Any]], Any] | None = None,
     logits_reader: Callable[[Any, int, int], Tensor | None] | None = None,
+    on_layer: Callable[[str, list[dict]], None] | None = None,
 ) -> dict:
-    """Run one forward pass and collect observations as their hooks execute.
+    """Observe multiple positions during one forward pass.
 
-    Use a Layer adapter, runner or logits_reader when a runtime uses a custom
-    layout, invocation signature or output format.
+    A custom Layer, runner, or logits_reader can map nonstandard runtime layouts.
+    The synchronous on_layer callback runs once per layer invocation.
     """
     if input_ids.ndim != 2 or input_ids.shape[0] != 1 or input_ids.shape[1] == 0:
         raise ValueError("input_ids must have shape [1, sequence] with at least one token")
     length = input_ids.shape[1]
-    if position < 0:
-        position += length
-    if not 0 <= position < length:
-        raise ValueError("token position out of range")
+    wanted = tuple(range(length) if positions is None else
+                   (position if position >= 0 else length + position for position in positions))
+    if not wanted or any(not 0 <= position < length for position in wanted):
+        raise ValueError("token position out of range or selection empty")
+    if len(set(wanted)) != len(wanted):
+        raise ValueError("token positions must be unique")
     if not plan.layers:
         raise ValueError("trace plan must list at least one layer")
     layers = [entry if isinstance(entry, Layer) else Layer(*entry, _batch_first_layer)
@@ -177,23 +187,34 @@ def trace(
         raise ValueError("layer names must be unique")
     if len({probe.name for probe in plan.probes}) != len(plan.probes):
         raise ValueError("probe names must be unique")
-    layer_records, probe_records, handles = [], [], []
+    layer_records = {position: [] for position in wanted}
+    probe_records = {position: [] for position in wanted}
+    handles = []
 
     def layer_hook(layer):
         def capture(module, args, kwargs, output):
-            before, after = layer.read(Call(module, args, kwargs, output, position, length))
-            before, after = _feature_vector(before), _feature_vector(after)
-            layer_records.append({
-                "name": layer.name,
-                "input": None if before is None else _summary(before, full_vectors),
-                "output": None if after is None else _summary(after, full_vectors),
-            })
+            event = []
+            for position in wanted:
+                before, after = layer.read(Call(module, args, kwargs, output, position, length))
+                before, after = _feature_vector(before), _feature_vector(after)
+                record = {
+                    "name": layer.name,
+                    "input": None if before is None else _summary(before, full_vectors),
+                    "output": None if after is None else _summary(after, full_vectors),
+                }
+                layer_records[position].append(record)
+                if on_layer is not None:
+                    event.append({"position": position, "input_l2": record["input"]["l2"] if before is not None else None,
+                                  "output_l2": record["output"]["l2"] if after is not None else None})
+            if on_layer is not None:
+                on_layer(layer.name, event)
         return capture
 
     def probe_hook(probe):
         def capture(module, args, kwargs, output):
-            record = probe.read(Call(module, args, kwargs, output, position, length))
-            probe_records.append({"name": probe.name, "kind": probe.kind, "data": record})
+            for position in wanted:
+                record = probe.read(Call(module, args, kwargs, output, position, length))
+                probe_records[position].append({"name": probe.name, "kind": probe.kind, "data": record})
         return capture
 
     try:
@@ -208,30 +229,43 @@ def trace(
         for handle in reversed(handles):
             handle.remove()
 
-    with torch.inference_mode():
-        if logits_reader is None:
-            logits = token_row(getattr(result, "logits", None), position, length)
-        else:
-            logits = _feature_vector(logits_reader(result, position, length))
-    executed = {entry["name"] for entry in layer_records}
-    observed = {entry["name"] for entry in probe_records}
-    report = {
-        "schema": "token-trace/1",
-        "position": position,
-        "token_id": input_ids[0, position].item(),
-        "layers": layer_records,
-        "probes": probe_records,
-        "coverage": {
-            "expected_layers": [layer.name for layer in layers],
-            "unexecuted_layers": [layer.name for layer in layers if layer.name not in executed],
-            "unmapped_layers": [entry["name"] for entry in layer_records if entry["output"] is None],
-            "unmapped_layer_inputs": [entry["name"] for entry in layer_records if entry["input"] is None],
-            "unexecuted_probes": [probe.name for probe in plan.probes if probe.name not in observed],
-            "unmapped_probes": [entry["name"] for entry in probe_records if entry["data"] is None],
-        },
+    reports = []
+    for position in wanted:
+        token_layers, token_probes = layer_records[position], probe_records[position]
+        with torch.inference_mode():
+            if logits_reader is None:
+                logits = token_row(getattr(result, "logits", None), position, length)
+            else:
+                logits = _feature_vector(logits_reader(result, position, length))
+        executed = {entry["name"] for entry in token_layers}
+        observed = {entry["name"] for entry in token_probes}
+        report = {
+            "schema": "token-trace/1",
+            "position": position,
+            "token_id": input_ids[0, position].item(),
+            "layers": token_layers,
+            "probes": token_probes,
+            "coverage": {
+                "expected_layers": [layer.name for layer in layers],
+                "unexecuted_layers": [layer.name for layer in layers if layer.name not in executed],
+                "unmapped_layers": [entry["name"] for entry in token_layers if entry["output"] is None],
+                "unmapped_layer_inputs": [entry["name"] for entry in token_layers if entry["input"] is None],
+                "unexecuted_probes": [probe.name for probe in plan.probes if probe.name not in observed],
+                "unmapped_probes": [entry["name"] for entry in token_probes if entry["data"] is None],
+            },
+        }
+        if logits is not None:
+            values, ids = logits.detach().float().topk(min(5, logits.numel()))
+            report["prediction"] = [{"token_id": i, "logit": v}
+                                    for i, v in zip(ids.tolist(), values.tolist())]
+        reports.append(report)
+    ids = input_ids[0].tolist()
+    return {
+        "schema": "token-trace/sequence/1",
+        "kind": "local",
+        "mode": "forward",
+        "tokens": [{"position": pos, "id": token_id, "text": str(token_id)}
+                   for pos, token_id in enumerate(ids)],
+        "layer_names": [layer.name for layer in layers],
+        "traces": reports,
     }
-    if logits is not None:
-        values, ids = logits.detach().float().topk(min(5, logits.numel()))
-        report["prediction"] = [{"token_id": i, "logit": v}
-                                for i, v in zip(ids.tolist(), values.tolist())]
-    return report

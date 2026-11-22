@@ -11,6 +11,9 @@ import struct
 from urllib.parse import urlencode
 from urllib.request import urlopen
 
+from .automation import AgentParser, add_output_options, write_json
+from .sequence import tokens_for_sequence
+
 
 REVISION = "1bae0e1088993b9b82de08f59de5be5a34e42170"
 DATA_URL = "https://neuron.carrabre.com/data/weights"
@@ -251,7 +254,7 @@ def _contribution(store, term, route, operands):
             "activation": value, "local_contribution": value * weight["value"]}
 
 
-def trace_capture(store, case, position, terms=(), *, route_only=False, strongest=False):
+def trace_capture(store, case, position, terms=(), *, route_only=False, strongest=False, neuron_grid=None):
     """Join the recorded route and operands for one generated answer token."""
     prompt_count = len(case["prompt_ids"])
     generated, pieces = case["generated_ids"], case["pieces"]
@@ -279,6 +282,12 @@ def trace_capture(store, case, position, terms=(), *, route_only=False, stronges
         timeline.append({"layer": layer, "stage": "encoder" if layer < ENCODER_LAYERS else "decoder",
                          "attention": "sliding_window" if layer < 2 else "csa2_with_sliding_window",
                          "experts": experts})
+    grid = None
+    if neuron_grid is not None and operands is not None:
+        layer, expert = neuron_grid
+        if (layer, expert) in operands.records:
+            grid = {"layer": layer, "expert": expert, "side": 48,
+                    "w2_inputs": [operands.w2_input(layer, expert, index) for index in range(NEURONS)]}
     following = ({"id": generated[index + 1], "piece": pieces[index + 1]}
                  if index + 1 < len(generated) else None)
     return {
@@ -288,6 +297,7 @@ def trace_capture(store, case, position, terms=(), *, route_only=False, stronges
                     "after": "".join(pieces[index + 1:index + 9])},
         "embedding_width": WIDTH,
         "layers": timeline,
+        **({"neuron_grid": grid} if grid else {}),
         "weight_terms": [_contribution(store, term, layers[term.layer], operands) for term in terms],
         "coverage": {"routing_layers": len(timeline), "operand_file": descriptor["file"] if descriptor else None,
                      "loaded_expert_records": len(operands.records) if operands else 0,
@@ -295,24 +305,108 @@ def trace_capture(store, case, position, terms=(), *, route_only=False, stronges
     }
 
 
-def main():
-    parser = argparse.ArgumentParser(description=__doc__)
+def replay_sequence(store, case, positions, terms=(), *, route_only=False, strongest=False, neuron_grid=None):
+    """Return a sequence report from saved routes, loading operands only for selected positions."""
+    pieces = case["pieces"]
+    offsets, cursor = [], 0
+    for piece in pieces:
+        offsets.append((cursor, cursor + len(piece)))
+        cursor += len(piece)
+    start = len(case["prompt_ids"])
+    detailed = sorted(map(int, case["tokens"]))
+    detailed_set = set(detailed)
+    tokens = tokens_for_sequence(zip(case["generated_ids"], pieces, strict=True), "".join(pieces), offsets)
+    for token in tokens:
+        token["position"] += start
+        token["segment"] = "recorded answer"
+        token["details"] = token["position"] in detailed_set
+    selected = list(positions)
+    if not selected or len(set(selected)) != len(selected):
+        raise ValueError("select at least one unique answer position")
+    return {
+        "schema": "token-trace/sequence/1", "kind": "capture", "mode": "replay",
+        "model": "DeepSeek V4.1 Flash 1017", "revision": REVISION,
+        "request_id": case["request_id"], "title": case["title"], "input": case["prompt"],
+        "generated": case["answer"], "tokens": tokens, "detailed_positions": detailed,
+        "layer_names": [str(layer) for layer in range(LAYERS)],
+        "capture_layout": case.get("capture_layout"), "parity_checked": case.get("parity_checked"),
+        "restore_verified": case.get("restore_verified"),
+        "traces": [trace_capture(store, case, position, terms, route_only=route_only,
+                                strongest=strongest, neuron_grid=neuron_grid) for position in selected],
+    }
+
+
+def _grid_arg(value):
+    try:
+        layer, expert = value.split(":")
+        layer, expert = int(layer), -1 if expert == "shared" else int(expert)
+        if not 0 <= layer < LAYERS or not -1 <= expert < EXPERTS:
+            raise ValueError
+        return layer, expert
+    except ValueError as error:
+        raise argparse.ArgumentTypeError("use LAYER:EXPERT with layer 0–39 and expert 0–383 or shared") from error
+
+
+def describe_capture():
+    return {
+        "purpose": "Read saved DeepSeek 1017 routes and join recorded operands to saved coefficients.",
+        "operations": {
+            "inspect": ["--describe", "--list-cases"],
+            "positions": ["--case REQUEST", "--position N (repeatable)", "--all-tokens", "--recorded-only"],
+            "measurements": ["--route-only", "--strongest", "--neuron-grid LAYER:EXPERT",
+                             "--term LAYER:EXPERT:NEURON:W1|W2|W3:FEATURE (repeatable)"],
+            "offline": ["--offline", "--data-root PATH", "--weight-file PATH (repeatable)"],
+            "report": ["--report-format capture", "--report-format sequence"],
+        },
+        "schemas": {"capture": "token-trace/deepseek-capture/1",
+                    "sequence": "token-trace/sequence/1", "cases": "JSON array"},
+        "io_flags": ["--output PATH", "--compact", "--json-errors"],
+        "examples": [
+            ["token-trace-deepseek", "--case", "wm-00-3d", "--all-tokens", "--route-only",
+             "--report-format", "sequence", "--compact"],
+            ["token-trace-deepseek", "--position", "135", "--position", "171",
+             "--term", "24:34:1076:w2:647", "--neuron-grid", "24:34", "--json-errors"],
+        ],
+    }
+
+
+def main(argv=None):
+    parser = AgentParser(description=__doc__, argv=argv)
+    parser.add_argument("--describe", action="store_true", help="emit command capabilities without fetching a capture")
     parser.add_argument("--data-root", default=DATA_URL, help="URL or directory containing research.json")
     parser.add_argument("--weight-api", default=WEIGHT_API, help="Explorer coefficient endpoint")
     parser.add_argument("--weight-file", type=Path, action="append", default=[], help="saved coefficient or tile JSON")
     parser.add_argument("--offline", action="store_true", help="use local capture and coefficient files only")
     parser.add_argument("--list-cases", action="store_true")
     parser.add_argument("--case", default=FEATURED_CASE)
-    parser.add_argument("--position", type=int, action="append", help="absolute token position, repeat to compare")
+    scope = parser.add_mutually_exclusive_group()
+    scope.add_argument("--position", type=int, action="append", help="absolute token position, repeat to compare")
+    scope.add_argument("--all-tokens", action="store_true", help="trace every answer token in the request")
+    scope.add_argument("--recorded-only", action="store_true", help="trace every answer position with saved operands")
     parser.add_argument("--term", type=_term_arg, action="append", default=[])
     parser.add_argument("--route-only", action="store_true", help="skip WMAP operands")
     parser.add_argument("--strongest", action="store_true", help="include strongest recorded neuron per expert")
+    parser.add_argument("--neuron-grid", type=_grid_arg, metavar="LAYER:EXPERT",
+                        help="include every recorded W2 input for one expert")
+    parser.add_argument("--report-format", choices=("capture", "sequence"), default="capture",
+                        help="legacy capture schema or shared sequence schema")
     parser.add_argument("-o", "--output", type=Path)
+    add_output_options(parser)
     args = parser.parse_args()
+    if args.describe:
+        from .cli import describe
+
+        try:
+            write_json(describe(), args.output, compact=args.compact)
+        except OSError as error:
+            parser.error(str(error), code="output_failed")
+        return
     if args.offline and args.data_root.startswith(("http://", "https://")):
         parser.error("--offline needs a local --data-root")
-    if args.route_only and (args.term or args.strongest):
-        parser.error("--route-only cannot be combined with --term or --strongest")
+    if args.route_only and (args.term or args.strongest or args.neuron_grid):
+        parser.error("--route-only cannot be combined with --term, --strongest, or --neuron-grid")
+    if args.neuron_grid and not args.position:
+        parser.error("--neuron-grid requires at least one explicit --position")
 
     try:
         store = CaptureStore(args.data_root, None if args.offline else args.weight_api, args.weight_file)
@@ -321,23 +415,34 @@ def main():
         else:
             case = store.case(args.case)
             detailed = sorted(map(int, case["tokens"]))
-            default = 171 if args.case == FEATURED_CASE else next(iter(detailed), len(case["prompt_ids"]))
-            report = {
-                "schema": "token-trace/deepseek-capture/1",
-                "checkpoint_revision": REVISION,
-                "request_id": args.case, "title": case["title"], "prompt": case["prompt"], "answer": case["answer"],
-                "capture_layout": case.get("capture_layout"), "parity_checked": case.get("parity_checked"),
-                "restore_verified": case.get("restore_verified"), "detailed_positions": detailed,
-                "tokens": [trace_capture(store, case, position, args.term, route_only=args.route_only,
-                                         strongest=args.strongest) for position in args.position or [default]],
-            }
-        output = json.dumps(report, ensure_ascii=False, allow_nan=False, indent=2)
-        if args.output:
-            args.output.write_text(output + "\n", encoding="utf-8")
-        else:
-            print(output)
-    except (ValueError, KeyError, IndexError, OSError, EOFError) as error:
-        parser.error(str(error))
+            start = len(case["prompt_ids"])
+            default = 171 if args.case == FEATURED_CASE else next(iter(detailed), start)
+            if args.all_tokens:
+                positions = range(start, start + len(case["generated_ids"]))
+            elif args.recorded_only:
+                positions = detailed
+            else:
+                positions = args.position or [default]
+            sequence = replay_sequence(store, case, positions, args.term, route_only=args.route_only,
+                                       strongest=args.strongest, neuron_grid=args.neuron_grid)
+            if args.report_format == "sequence":
+                report = sequence
+            else:
+                report = {
+                    "schema": "token-trace/deepseek-capture/1",
+                    "checkpoint_revision": REVISION,
+                    "request_id": args.case, "title": sequence["title"],
+                    "prompt": sequence["input"], "answer": sequence["generated"],
+                    "capture_layout": sequence["capture_layout"], "parity_checked": sequence["parity_checked"],
+                    "restore_verified": sequence["restore_verified"], "detailed_positions": detailed,
+                    "tokens": sequence["traces"],
+                }
+    except (ValueError, KeyError, IndexError, TypeError, OSError, EOFError) as error:
+        parser.error(str(error), code="capture_failed")
+    try:
+        write_json(report, args.output, compact=args.compact)
+    except (OSError, ValueError) as error:
+        parser.error(str(error), code="output_failed")
 
 
 if __name__ == "__main__":

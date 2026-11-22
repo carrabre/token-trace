@@ -7,7 +7,7 @@ import unittest
 
 from token_trace.deepseek import (
     CaptureStore, EXPERTS, LAYERS, NEURONS, REVISION, WIDTH, WeightTerm,
-    decode_operands, trace_capture,
+    decode_operands, replay_sequence, trace_capture,
 )
 
 
@@ -43,7 +43,8 @@ class DeepSeekCaptureTests(unittest.TestCase):
         ids = [34, 2, 3, 4, 5, EXPERTS - 1]
         weights = [0.25] * len(ids)
         self.case = {
-            "request_id": "case", "prompt_ids": [100], "pieces": [" THREE", ".B"],
+            "request_id": "case", "title": "Trace geometry", "prompt": "Create a box.",
+            "answer": " THREE.B", "prompt_ids": [100], "pieces": [" THREE", ".B"],
             "generated_ids": [94175, 7342],
             "tokens": {"1": {"file": "runs/input.bin.gz", "records": 1, "uncompressed_bytes": len(payload)}},
             "routes": [{"ids": [ids] * 3, "weights": [weights] * 3} for _ in range(LAYERS)],
@@ -74,6 +75,14 @@ class DeepSeekCaptureTests(unittest.TestCase):
         self.assertEqual([term["coefficient"]["coordinate"] for term in trace["weight_terms"]],
                          [[647, 1076], [1076, 32], [1076, 32]])
 
+    def test_grid_reports_the_recorded_w2_inputs_for_the_requested_expert(self):
+        trace = trace_capture(self.store, self.case, 1, neuron_grid=(24, 34))
+        grid = trace["neuron_grid"]
+        self.assertEqual((grid["layer"], grid["expert"], grid["side"]), (24, 34, 48))
+        self.assertEqual(len(grid["w2_inputs"]), 2304)
+        self.assertEqual(grid["w2_inputs"][1076], 0.4375)
+        self.assertNotIn("neuron_grid", trace_capture(self.store, self.case, 1, neuron_grid=(24, -1)))
+
     def test_distinguishes_missing_operand_from_unselected_expert(self):
         trace = trace_capture(self.store, self.case, 2, [self.w2, self.unused])
         self.assertIsNone(trace["next_recorded_token"])
@@ -86,6 +95,17 @@ class DeepSeekCaptureTests(unittest.TestCase):
         self.case["routes"][24]["weights"][1] = [0.5] * 6
         with self.assertRaisesRegex(ValueError, "routing weight disagrees"):
             trace_capture(self.store, self.case, 1, [self.w2])
+
+    def test_sequence_report_preserves_answer_positions_and_details(self):
+        sequence = replay_sequence(self.store, self.case, [1, 2], route_only=True)
+        self.assertEqual(sequence["schema"], "token-trace/sequence/1")
+        self.assertEqual(sequence["revision"], REVISION)
+        self.assertEqual(sequence["detailed_positions"], [1])
+        self.assertEqual([token["position"] for token in sequence["tokens"]], [1, 2])
+        self.assertEqual([token["details"] for token in sequence["tokens"]], [True, False])
+        self.assertTrue(all(len(trace["layers"]) == 40 for trace in sequence["traces"]))
+        with self.assertRaisesRegex(ValueError, "unique"):
+            replay_sequence(self.store, self.case, [1, 1])
 
     def test_route_only_does_not_read_or_require_operand_file(self):
         self.root.joinpath("runs/input.bin.gz").unlink()
