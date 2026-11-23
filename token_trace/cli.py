@@ -21,19 +21,20 @@ def describe():
         "version": release,
         "commands": {
             "token-trace": {
-                "purpose": "Trace one or more tokens in a local Hugging Face causal language model.",
+                "purpose": "Inventory a local Hugging Face checkpoint or trace tokens in a causal language model.",
                 "inputs": ["checkpoint ID or local directory", "positional text", "--text-file UTF-8_PATH_OR_-"],
                 "operations": {
-                    "inspect": ["--describe"],
+                    "inspect": ["--describe", "--inspect-model", "--coefficient PARAMETER:INDEX[,INDEX...] (repeatable)"],
                     "positions": ["--position N (repeatable)", "--all-tokens"],
                     "capture_depth": ["--depth layers", "--depth selected", "--depth weights"],
                     "weight_selection": ["--row MODULE:OUTPUT[:INPUT] (repeatable)", "--top N", "--all-terms"],
                     "capture_vectors": ["--full-vectors"],
                     "generation_replay": ["--generate N"],
-                    "model": ["--revision REVISION", "--device DEVICE", "--layers PATH", "--local-files-only"],
+                    "model": ["--revision REVISION", "--device DEVICE", "--layers PATH (repeatable)", "--local-files-only"],
                 },
                 "defaults": {"position": -1, "depth": "weights", "top": 5, "device": "cpu", "generate": 0},
-                "schemas": {"single_position": "token-trace/1", "multiple_or_all_positions": "token-trace/sequence/1"},
+                "schemas": {"single_position": "token-trace/1", "multiple_or_all_positions": "token-trace/sequence/1",
+                            "model_inventory": "token-trace/model/1"},
                 "io_flags": ["--output PATH", "--compact", "--json-errors", "--progress"],
                 "examples": [
                     ["token-trace", "CHECKPOINT", "--text-file", "-", "--all-tokens", "--depth", "layers",
@@ -46,6 +47,9 @@ def describe():
             "token-trace-deepseek": describe_capture(),
         },
         "reports": {
+            "token-trace/model/1": {"modules": "registered paths", "parameters": "registered learned tensors",
+                                    "buffers": "registered non-parameter tensors",
+                                    "layer_stack_candidates": "structural candidates", "coefficients": "selected scalar values"},
             "token-trace/1": {"position": "zero-based in full model input", "trace": ["layers", "probes", "coverage", "prediction?"]},
             "token-trace/sequence/1": {"tokens": "full sequence of token records", "traces": "one report per selected position"},
             "token-trace/deepseek-capture/1": {"tokens": "recorded answer traces at selected absolute positions"},
@@ -71,7 +75,10 @@ def main(argv=None):
     scope = parser.add_mutually_exclusive_group()
     scope.add_argument("--position", type=int, action="append", help="repeat to select token positions")
     scope.add_argument("--all-tokens", action="store_true", help="trace every token in one forward pass")
-    parser.add_argument("--layers", help="explicit dotted path to the block list")
+    parser.add_argument("--layers", action="append", help="repeat to select dotted paths to token-aligned block stacks")
+    parser.add_argument("--inspect-model", action="store_true", help="inventory a checkpoint without a forward pass or prompt")
+    parser.add_argument("--coefficient", action="append", default=[], metavar="PARAMETER:INDEX[,INDEX...]",
+                        help="sample one runtime parameter coordinate during model inspection")
     parser.add_argument("--revision", help="pin a Hub checkpoint revision")
     parser.add_argument("--device", default="cpu")
     parser.add_argument("--top", type=int, default=5, help="number of contribution terms per row")
@@ -93,13 +100,17 @@ def main(argv=None):
         return
     if not args.model:
         parser.error("a checkpoint is required unless --describe is used")
-    if args.text_file is None and args.text is None:
+    if args.inspect_model and (args.text_file is not None or args.text is not None):
+        parser.error("--inspect-model does not accept text")
+    if not args.inspect_model and args.text_file is None and args.text is None:
         parser.error("supply text or --text-file")
+    if args.coefficient and not args.inspect_model:
+        parser.error("--coefficient requires --inspect-model")
     if args.top < 0:
         parser.error("--top must be nonnegative")
     if not 0 <= args.generate <= 128:
         parser.error("--generate must be between 0 and 128")
-    if args.depth == "selected" and not args.row:
+    if not args.inspect_model and args.depth == "selected" and not args.row:
         parser.error("--depth selected requires --row")
 
     positions = None if args.all_tokens else args.position or [-1]
@@ -113,6 +124,13 @@ def main(argv=None):
             text = args.text
 
         def run():
+            if args.inspect_model:
+                from .session import inspect_checkpoint, parse_coefficients
+
+                return inspect_checkpoint(args.model, revision=args.revision, device=args.device,
+                                          local_only=args.local_files_only,
+                                          coefficients=tuple(parse_coefficients(args.coefficient)))
+
             from .session import model_sequence, parse_rows
 
             return model_sequence(
@@ -132,9 +150,9 @@ def main(argv=None):
     except ImportError:
         parser.error("install Hugging Face support with pip install '.[hf]'", code="missing_dependency")
     except (OSError, ValueError, RuntimeError) as error:
-        parser.error(str(error), code="trace_failed")
+        parser.error(str(error), code="inspect_failed" if args.inspect_model else "trace_failed")
 
-    if not args.all_tokens and len(positions) == 1:
+    if not args.inspect_model and not args.all_tokens and len(positions) == 1:
         # Retain the one-token CLI schema and token fields.
         single = data["traces"][0]
         single.update(model=data["model"], revision=data["revision"],

@@ -1,108 +1,48 @@
-"""Adapter for batch-first Hugging Face causal language models."""
-
-from collections.abc import Iterable
-from dataclasses import dataclass
+"""Architecture hints and extra probes for Hugging Face causal language models."""
 
 from torch import nn
 
-from .core import Plan, Probe, linear_terms, token_row
 from .mixtral import expert_probe, is_packed_mixtral
+from .portable import Row, _EXPERT_COMPONENTS, embedding_probe, linear_probe, module_plan
+
 
 _LAYER_PATHS = ("model.layers", "transformer.h", "gpt_neox.layers",
                 "model.decoder.layers", "transformer.blocks", "model.language_model.layers")
-_PACKED = {"expert", "experts", "shared_expert", "shared_experts"}
 
 
-@dataclass(frozen=True)
-class Row:
-    output: int
-    input: int | None = None
-
-
-def linear_probe(name, module, rows, *, top=5, all_terms=False, transposed=False):
-    """Use for a module whose weight is accessible and token axis is preserved."""
-    def read(call):
-        value = call.args[0] if call.args else call.kwargs.get("input")
-        signal = token_row(value, call.position, call.length)
-        measured = token_row(call.output, call.position, call.length)
-        if signal is None or measured is None:
-            return None
-        weight = module.weight.T if transposed else module.weight
-        return {"rows": [
-            linear_terms(signal, weight, row.output, bias=module.bias, measured=measured,
-                         input_index=row.input, top=top, all_terms=all_terms)
-            for row in rows
-        ]}
-    return Probe(name, module, read, "affine")
-
-
-def embedding_probe(name, module, rows):
-    for row in rows:
-        if row.input is not None or not 0 <= row.output < module.embedding_dim:
-            raise ValueError(f"{name}: select an embedding feature as MODULE:FEATURE")
-
-    def read(call):
-        ids = call.args[0] if call.args else call.kwargs.get("input")
-        measured = token_row(call.output, call.position, call.length)
-        if measured is None or getattr(ids, "shape", None) != (1, call.length):
-            return None
-        index = ids[0, call.position].item()
-        return {"lookup_index": index, "features": [
-            {"feature": row.output, "weight": module.weight[index, row.output].item(),
-             "observed": measured[row.output].item()}
-            for row in rows
-        ]}
-
-    return Probe(name, module, read, "embedding_lookup")
-
-
-def hf_plan(model, *, layer_path=None, rows: dict[str, Iterable[Row]] | None = None,
-            top=5, all_terms=False):
-    """Find the block stack and attach safe affine probes. Packed experts need an adapter."""
+def _hf_probe(model, name, module, rows, *, top, all_terms, default_probes):
     from transformers.pytorch_utils import Conv1D
 
-    choices = (layer_path,) if layer_path else _LAYER_PATHS
-    expected = getattr(model.config, "num_hidden_layers", None)
-    for path in choices:
-        try:
-            blocks = model.get_submodule(path)
-        except AttributeError:
-            continue
-        if isinstance(blocks, (nn.ModuleList, nn.Sequential)) and len(blocks):
-            break
-    else:
-        raise ValueError("block stack not found. Pass --layers PATH or supply a custom Plan")
-    if expected is not None and len(blocks) != expected:
-        raise ValueError(f"{path} has {len(blocks)} blocks, config declares {expected}")
-    probes, skipped = [], []
-    rows = dict(rows or {})
-    for name, module in model.named_modules():
-        if not name:
-            continue
-        if is_packed_mixtral(model, module):
-            requests = rows.pop(name, [Row(0)])
-            probes.append(expert_probe(name, module, requests,
-                                       gate_rows=rows.pop(name + ".gate", []),
-                                       up_rows=rows.pop(name + ".up", []),
-                                       top=top, all_terms=all_terms))
-            continue
-        if type(module) is nn.Embedding and not _PACKED.intersection(name.split(".")):
-            requests = rows.pop(name, [Row(0)])
-            probes.append(embedding_probe(name, module, requests))
-            continue
-        if type(module) not in (nn.Linear, Conv1D):
-            if _PACKED.intersection(name.split(".")) or (
-                list(module.parameters(recurse=False)) and not isinstance(module, nn.Embedding)
-            ):
-                skipped.append(name)
-            continue
-        if _PACKED.intersection(name.split(".")):
-            skipped.append(name)
-            continue
-        requests = rows.pop(name, [Row(0)])
-        probes.append(linear_probe(name, module, requests, top=top,
-                                   all_terms=all_terms, transposed=type(module) is Conv1D))
-    if rows:
-        raise ValueError("requested projections need an adapter or do not exist: " + ", ".join(rows))
-    layers = [(f"{path}.{i}", block) for i, block in enumerate(blocks)]
-    return Plan(layers, probes), skipped
+    if is_packed_mixtral(model, module):
+        down = rows.pop(name, (Row(0),) if default_probes else ())
+        gate = rows.pop(name + ".gate", ())
+        up = rows.pop(name + ".up", ())
+        if down or gate or up:
+            return expert_probe(name, module, down, gate_rows=gate, up_rows=up,
+                                top=top, all_terms=all_terms)
+        return False
+    elif type(module) is Conv1D and not _EXPERT_COMPONENTS.intersection(name.split(".")):
+        requested = rows.pop(name, (Row(0),) if default_probes else ())
+        if requested:
+            return linear_probe(name, module, requested, top=top, all_terms=all_terms, transposed=True)
+        return False
+    return None
+
+
+def hf_plan(model, *, layer_path=None, rows=None, top=5, all_terms=False, default_probes=True):
+    """Prefer tested stack paths, then delegate to portable discovery."""
+    paths = layer_path
+    if not paths:
+        config = getattr(model, "config", None)
+        expected = getattr(config, "num_hidden_layers", None)
+        for path in _LAYER_PATHS:
+            try:
+                blocks = model.get_submodule(path)
+            except AttributeError:
+                continue
+            if isinstance(blocks, (nn.ModuleList, nn.Sequential)) and len(blocks):
+                if expected is None or expected == len(blocks):
+                    paths = [path]
+                    break
+    return module_plan(model, layer_paths=paths, rows=rows, top=top, all_terms=all_terms,
+                       default_probes=default_probes, probe_adapters=(_hf_probe,))

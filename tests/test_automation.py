@@ -48,6 +48,19 @@ class AutomationTests(unittest.TestCase):
         self.assertEqual(contract["commands"]["token-trace"]["schemas"]["single_position"], "token-trace/1")
         self.assertIn("token-trace-deepseek", contract["commands"])
 
+    def test_inventory_is_a_separate_prompt_free_command(self):
+        from token_trace import session
+
+        model = {"schema": "token-trace/model/1", "coefficients": [{"value": 0.5}]}
+        with patch.object(session, "inspect_checkpoint", return_value=model) as inspect:
+            code, output, error = invoke(["fixture", "--inspect-model", "--local-files-only",
+                                          "--coefficient", "projection.weight:2,3",
+                                          "--coefficient", "scale:", "--compact", "--json-errors"])
+        self.assertEqual((code, error), (0, ""))
+        self.assertEqual(json.loads(output), model)
+        inspect.assert_called_once_with("fixture", revision=None, device="cpu", local_only=True,
+                                        coefficients=(("projection.weight", (2, 3)), ("scale", ())))
+
     def test_parser_errors_stay_off_stdout(self):
         cases = [
             ["--unknown", "--json-errors"],

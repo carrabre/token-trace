@@ -1,5 +1,6 @@
 from collections.abc import Callable, Mapping, Sequence
 from dataclasses import dataclass, field
+from itertools import count
 from typing import Any
 
 import torch
@@ -80,7 +81,7 @@ def packed_token_row(
 
 
 def _batch_first_layer(call: Call) -> tuple[Tensor | None, Tensor | None]:
-    hidden = call.args[0] if call.args else call.kwargs.get("hidden_states")
+    hidden = call.args[0] if call.args else call.kwargs.get("hidden_states", call.kwargs.get("input"))
     result = call.output[0] if isinstance(call.output, (tuple, list)) and call.output else call.output
     return (token_row(hidden, call.position, call.length),
             token_row(result, call.position, call.length))
@@ -166,7 +167,8 @@ def trace_many(
     """Observe multiple positions during one forward pass.
 
     A custom Layer, runner, or logits_reader can map nonstandard runtime layouts.
-    The synchronous on_layer callback runs once per layer invocation.
+    The synchronous on_layer callback runs once per layer invocation. The
+    event_index orders layer and probe hooks by observed completion.
     """
     if input_ids.ndim != 2 or input_ids.shape[0] != 1 or input_ids.shape[1] == 0:
         raise ValueError("input_ids must have shape [1, sequence] with at least one token")
@@ -190,15 +192,18 @@ def trace_many(
     layer_records = {position: [] for position in wanted}
     probe_records = {position: [] for position in wanted}
     handles = []
+    events = count()
 
     def layer_hook(layer):
         def capture(module, args, kwargs, output):
             event = []
+            event_index = next(events)
             for position in wanted:
                 before, after = layer.read(Call(module, args, kwargs, output, position, length))
                 before, after = _feature_vector(before), _feature_vector(after)
                 record = {
                     "name": layer.name,
+                    "event_index": event_index,
                     "input": None if before is None else _summary(before, full_vectors),
                     "output": None if after is None else _summary(after, full_vectors),
                 }
@@ -212,9 +217,11 @@ def trace_many(
 
     def probe_hook(probe):
         def capture(module, args, kwargs, output):
+            event_index = next(events)
             for position in wanted:
                 record = probe.read(Call(module, args, kwargs, output, position, length))
-                probe_records[position].append({"name": probe.name, "kind": probe.kind, "data": record})
+                probe_records[position].append({"name": probe.name, "kind": probe.kind,
+                                                "event_index": event_index, "data": record})
         return capture
 
     try:
